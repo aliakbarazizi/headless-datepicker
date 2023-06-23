@@ -5,14 +5,51 @@ on:
     branches:
       - 'main'
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.build-publish.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
-      - id: build-publish
-        uses: bitovi/github-actions-react-to-ghp@v1.2.0
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: yarn --frozen-lockfile
+
+      - name: Build project
+        run: yarn build:storybook
+
+      - name: 'upload'
+        uses: actions/upload-artifact@v3
         with:
           path: storybook-static
-          build_command: yarn build:storybook
+  deploy:
+    needs: build
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
