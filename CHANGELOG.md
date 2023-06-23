@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.0.3...v1.0.4) (2023-06-23)
+
+
+### Bug Fixes
+
+* github workflows ([87b6915](https://github.com/aliakbarazizi/headless-datepicker/commit/87b69157c20966fe80783d83a145bade34891d81))
+
 ## [1.0.3](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.0.2...v1.0.3) (2023-06-23)
 
 
