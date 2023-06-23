@@ -52,6 +52,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: ./storybook-static
+          name: 'github-pages'
   deploy:
     environment:
       name: github-pages
