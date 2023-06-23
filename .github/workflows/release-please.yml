@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - develop
+      - main
 
 permissions:
   contents: write
@@ -14,11 +14,10 @@ jobs:
     steps:
       - name: Release
         id: release
-        if: ${{ github.ref_name == 'develop' }}
         uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
-          default-branch: develop
+          package-name: test-release-please
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout
@@ -38,7 +37,7 @@ jobs:
         if: ${{ steps.release.outputs.releases_created }}
 
       - name: Build
-        run: yarn build:lib
+        run: yarn build:dist
         if: ${{ steps.release.outputs.releases_created }}
 
       - name: Publish
