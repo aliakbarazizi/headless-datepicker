@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.0.2...v1.0.3) (2023-06-23)
+
+
+### Bug Fixes
+
+* migrate to yarn 3 ([b34dc31](https://github.com/aliakbarazizi/headless-datepicker/commit/b34dc3175dc6725430debdfbd9c5e68047acf260))
+
 ## [1.0.2](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.0.1...v1.0.2) (2023-06-23)
 
 
