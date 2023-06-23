@@ -49,14 +49,14 @@ jobs:
 
       - name: CI
         run: yarn install --immutable
-        if: ${{ steps.release.outputs.releases_created }}
+        if: steps.release.outputs.releases_created && steps.cache-nodemodules.outputs.cache-hit != 'true'
 
       - name: Build
         run: yarn build:dist
         if: ${{ steps.release.outputs.releases_created }}
 
       - name: Publish
-        run: yarn npm publish
+        run: yarn npm publish --access public
         if: ${{ steps.release.outputs.releases_created }}
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
