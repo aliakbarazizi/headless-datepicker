@@ -54,6 +54,8 @@
     "date-fns": "^2.30.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
     "@storybook/addon-essentials": "^7.0.20",
     "@storybook/addon-interactions": "^7.0.20",
     "@storybook/addon-links": "^7.0.20",
@@ -97,6 +99,11 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md}": [
       "prettier -w"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
     ]
   }
 }
