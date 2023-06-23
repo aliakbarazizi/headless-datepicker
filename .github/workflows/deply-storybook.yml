@@ -49,10 +49,9 @@ jobs:
         run: yarn build:storybook
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./storybook-static
-          name: 'github-pages'
   deploy:
     environment:
       name: github-pages
