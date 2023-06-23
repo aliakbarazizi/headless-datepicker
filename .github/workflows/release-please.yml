@@ -56,7 +56,7 @@ jobs:
         if: ${{ steps.release.outputs.releases_created }}
 
       - name: Publish
-        run: yarn publish
+        run: yarn npm publish
         if: ${{ steps.release.outputs.releases_created }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
