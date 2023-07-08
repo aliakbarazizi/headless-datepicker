@@ -1,7 +1,8 @@
-import type { Preview } from '@storybook/react';
-import '../src/style.css';
-import { withThemeByDataAttribute } from '@storybook/addon-styling';
+import { withThemeByClassName } from '@storybook/addon-styling';
+import type { Decorator, Preview } from '@storybook/react';
 import { themes } from '@storybook/theming';
+import DatePickerDecorator from './decorator/DatePickerDecorator';
+import '../src/style.css';
 
 const preview: Preview = {
   parameters: {
@@ -21,12 +22,12 @@ const preview: Preview = {
 export default preview;
 
 export const decorators = [
-  withThemeByDataAttribute({
+  withThemeByClassName({
     themes: {
       light: 'light',
       dark: 'dark',
     },
     defaultTheme: 'dark',
-    attributeName: 'data-mode',
   }),
+  DatePickerDecorator,
 ];

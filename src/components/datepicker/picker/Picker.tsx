@@ -1,18 +1,18 @@
-import { Ref, ElementType } from 'react';
 import {
-  useFloating,
   autoUpdate,
-  offset,
   flip,
+  offset,
   shift,
+  useFloating,
 } from '@floating-ui/react-dom';
-import { Props } from '../../type';
-import { forwardRef, render } from '../../utils/render';
-import { DatepickerSlot, useDatepickerSlot } from './context';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
-import { useSyncRef } from '../../hooks/useSyncRef';
 import { UseFloatingOptions } from '@floating-ui/react-dom';
-import { useScrollIntoItemIfNeeded } from '../../hooks/useScrollIntoItemIfNeeded';
+import { ElementType, Ref } from 'react';
+import { DatepickerSlot, useDatepickerSlot } from '../../../context/context';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import { useScrollIntoItemIfNeeded } from '../../../hooks/useScrollIntoItemIfNeeded';
+import { useSyncRef } from '../../../hooks/useSyncRef';
+import { Props } from '../../../type';
+import { forwardRef, render } from '../../../utils/render';
 
 const DEFAULT_TAG = 'div';
 

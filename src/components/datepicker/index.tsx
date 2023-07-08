@@ -1,12 +1,15 @@
-import { Datepicker as DatepickerRoot, DatepickerProps } from './Datepicker';
-import { Input, InputProps } from './Input';
-import { Header, HeaderProps } from './Header';
-import { Button, ButtonProps } from './Button';
-import { Item, ItemProps } from './Item';
-import { Items, ItemsProps } from './Items';
-import { Picker, PickerProps } from './Picker';
+import { Button, ButtonProps } from './button/Button';
+import { Header, HeaderProps } from './header/Header';
+import { Input, InputProps } from './input/Input';
+import { Item, ItemProps } from './item/Item';
+import { Items, ItemsProps } from './items/Items';
+import { Picker, PickerProps } from './picker/Picker';
+import {
+  ProviderProps as DatepickerProps,
+  Provider,
+} from './provider/Provider';
 
-const Datepicker = Object.assign(DatepickerRoot, {
+const Datepicker = Object.assign(Provider, {
   Picker,
   Input,
   Header,
@@ -25,6 +28,6 @@ export type {
   ItemProps,
 };
 
-export type * from './context';
+export type * from '../../context/context';
 
 export default Datepicker;

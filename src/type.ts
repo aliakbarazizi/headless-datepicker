@@ -1,4 +1,4 @@
-import { ReactNode, ElementType, ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
 
 type OurProps<Tag extends ElementType, Slot> = {
   as?: Tag;

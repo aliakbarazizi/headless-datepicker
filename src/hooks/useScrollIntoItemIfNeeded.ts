@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { itemDataAttribute } from '../components/datepicker/Item';
+import { itemDataAttribute } from '../components/datepicker/item/Item';
 
 export function useScrollIntoItemIfNeeded(
   enable: boolean,

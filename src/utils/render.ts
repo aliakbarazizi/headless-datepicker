@@ -1,15 +1,15 @@
 import {
+  ElementType,
+  ForwardedRef,
   Fragment,
+  PropsWithoutRef,
+  ReactElement,
+  Ref,
+  RefAttributes,
   cloneElement,
   createElement,
   isValidElement,
-  ElementType,
-  Ref,
   forwardRef as reactForwardRef,
-  ForwardedRef,
-  ReactElement,
-  RefAttributes,
-  PropsWithoutRef,
 } from 'react';
 import { Props } from '../type';
 import { classNames } from './class-names';

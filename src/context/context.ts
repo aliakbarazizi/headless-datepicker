@@ -1,12 +1,12 @@
 import {
+  Key,
   MutableRefObject,
   RefObject,
   createContext,
   useContext,
-  Key,
 } from 'react';
-import { match } from '../../utils/match';
-import { mod } from '../../utils/mod';
+import { match } from '../utils/match';
+import { mod } from '../utils/mod';
 
 export type DateItemType =
   | {
@@ -120,9 +120,6 @@ export type DateParts = {
   day: number;
   month: number;
   year: number;
-  hour: number;
-  minute: number;
-  //   second: number;
 };
 
 type RemoveS<T extends `${string}s`> = T extends `${infer Type}s`
@@ -171,7 +168,7 @@ export type DatepickerContextActions =
     }
   | {
       type: 'externalValueChanged';
-      payload: { parts: DateParts };
+      payload: Date;
     };
 
 export type DatepickerSlot = {
@@ -195,7 +192,8 @@ export type DatepickerConfig = {
   defaultDateHourFormat: string;
   format: (date: Date | null, format: string) => string;
   parse: (date: string, format: string, referenceDate: Date | null) => Date;
-  getDateParts: (date: Date) => DateParts;
+  toDateParts: (date: Date) => DateParts;
+  fromDateParts: (date: DateParts) => Date;
 } & GetDateItems;
 
 export type DatepickerState = Omit<DatepickerSlot, 'monthName' | 'value'> & {
@@ -323,7 +321,7 @@ export const datePickerReducer = (
       today.setHours(state.hour, state.minute);
       state.onChange(today);
 
-      const parts = state.config.getDateParts(today);
+      const parts = state.config.toDateParts(today);
 
       return {
         ...state,
@@ -335,7 +333,7 @@ export const datePickerReducer = (
       const today = new Date();
       state.onChange(today);
 
-      const parts = state.config.getDateParts(today);
+      const parts = state.config.toDateParts(today);
 
       return {
         ...state,
@@ -400,12 +398,14 @@ export const datePickerReducer = (
       return newState;
     }
     case 'externalValueChanged': {
+      const parts = state.config.toDateParts(payload);
+
       return {
         ...state,
-        year: payload.parts.year,
-        month: payload.parts.month,
-        hour: payload.parts.hour,
-        minute: payload.parts.minute,
+        year: parts.year,
+        month: parts.month,
+        hour: payload.getHours(),
+        minute: payload.getMinutes(),
       };
     }
     default:

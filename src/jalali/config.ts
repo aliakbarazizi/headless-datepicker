@@ -1,7 +1,7 @@
 import { addDays, eachDayOfInterval, startOfDay, startOfToday } from 'date-fns';
 // @ts-expect-error wrong type in jalali-js type
-import { toJalaali, jalaaliToDateObject } from 'jalaali-js';
-import type { DatepickerConfig, DateParts, DateItemType } from '..';
+import { jalaaliToDateObject, toJalaali } from 'jalaali-js';
+import type { DateItemType, DateParts, DatepickerConfig } from '..';
 import { format } from './format';
 import { parse } from './parse';
 
@@ -64,6 +64,20 @@ export const config: DatepickerConfig = {
     return jalali;
   },
 
+  toDateParts: (date) =>
+    new Intl.DateTimeFormat('fa-IR-u-nu-latn', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    })
+      .formatToParts(date)
+      .reduce<DateParts>((acc, part) => {
+        if (part.type !== 'literal')
+          acc[part.type as keyof DateParts] = +part.value;
+        return acc;
+      }, {} as any),
+  fromDateParts: (date) => {},
+
   years: ({ type, year }) => {
     const todayYear = toJalaali(new Date()).jy;
 
@@ -79,7 +93,6 @@ export const config: DatepickerConfig = {
       text: value + 1300 + '',
     }));
   },
-
   months: ({ type, month }) => {
     const todayMonth = toJalaali(new Date()).jm;
     return [...config.monthNames.keys()].map((value) => ({
@@ -94,7 +107,6 @@ export const config: DatepickerConfig = {
       text: config.monthNames[value],
     }));
   },
-
   days: ({ type, month, startOfWeek, year, value }) => {
     const start = jalaaliToDateObject(year, month, 1);
     const end = jalaaliToDateObject(year, month + 1, 1);
@@ -141,7 +153,6 @@ export const config: DatepickerConfig = {
         })),
       );
   },
-
   hours: ({ type }) =>
     [...Array(24).keys()].map((value) => ({
       type,
@@ -149,7 +160,6 @@ export const config: DatepickerConfig = {
       value: value,
       text: value + '',
     })),
-
   minutes: ({ type }) =>
     [...Array(60).keys()].map((value) => ({
       type,
@@ -157,22 +167,6 @@ export const config: DatepickerConfig = {
       value: value,
       text: value + '',
     })),
-
-  getDateParts: (date: Date) =>
-    new Intl.DateTimeFormat('fa-IR-u-nu-latn', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false,
-    })
-      .formatToParts(date)
-      .reduce<DateParts>((acc, part) => {
-        if (part.type !== 'literal')
-          acc[part.type as keyof DateParts] = +part.value;
-        return acc;
-      }, {} as any),
 };
 
 function mod(n: number, m: number) {

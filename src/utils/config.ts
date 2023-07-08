@@ -1,15 +1,19 @@
 import {
   addDays,
+  format as dateFromat,
   eachDayOfInterval,
   endOfMonth,
-  format as dateFromat,
   parse,
+  startOfDay,
   startOfMonth,
   startOfToday,
-  startOfDay,
 } from 'date-fns';
-import { DateItemType, DateParts, DatepickerConfig } from '.';
-import { mod } from '../../utils/mod';
+import {
+  DateItemType,
+  DateParts,
+  DatepickerConfig,
+} from '../components/datepicker';
+import { mod } from './mod';
 
 export const config: DatepickerConfig = {
   dayNames: [
@@ -64,14 +68,11 @@ export const config: DatepickerConfig = {
     return parseDate;
   },
 
-  getDateParts: (date: Date) =>
+  toDateParts: (date) =>
     new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false,
     })
       .formatToParts(date)
       .reduce<DateParts>((acc, part) => {
@@ -79,6 +80,9 @@ export const config: DatepickerConfig = {
           acc[part.type as keyof DateParts] = +part.value;
         return acc;
       }, {} as any),
+  fromDateParts: (date) => {
+    const newDate = new Date(date.year, date.month - 1);
+  },
 
   years: ({ type, year }) => {
     const todayYear = new Date().getFullYear();
@@ -95,7 +99,6 @@ export const config: DatepickerConfig = {
       text: value + 1900 + '',
     }));
   },
-
   months: ({ type, month }) => {
     const todayMonth = new Date().getMonth();
 
@@ -111,7 +114,6 @@ export const config: DatepickerConfig = {
       text: config.monthNames[value],
     }));
   },
-
   days: ({ type, month, startOfWeek, year, value }) => {
     const date = new Date(year, month - 1, 1);
 
@@ -155,7 +157,6 @@ export const config: DatepickerConfig = {
         })),
       );
   },
-
   hours: ({ type }) =>
     [...Array(24).keys()].map((value) => ({
       type,

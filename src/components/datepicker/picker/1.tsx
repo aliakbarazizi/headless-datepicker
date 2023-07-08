@@ -9,7 +9,6 @@ const meta = {
   title: 'Example/Datepicker',
   component: Datepicker,
   tags: ['autodocs'],
-
   // argTypes: { backgroundColor: { control: 'color' } },
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout

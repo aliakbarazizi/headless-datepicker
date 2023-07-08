@@ -1,27 +1,27 @@
+import { isEqual as isEqualDate } from 'date-fns';
 import {
+  ElementType,
   Fragment,
   Ref,
-  ElementType,
+  useEffect,
   useReducer,
   useRef,
-  useEffect,
 } from 'react';
-import { isEqual as isEqualDate } from 'date-fns';
-import { Props } from '../../type';
-import { forwardRef, render } from '../../utils/render';
 import {
   DatepickerConfig,
   DatepickerContext,
   DatepickerState,
   datePickerReducer,
   getSlot,
-} from './context';
-import { config as defaultConfig } from './config';
-import { useEvent } from '../../hooks/useEvent';
+} from '../../../context/context';
+import { useEvent } from '../../../hooks/useEvent';
+import { Props } from '../../../type';
+import { config as defaultConfig } from '../../../utils/config';
+import { forwardRef, render } from '../../../utils/render';
 
 const DEFAULT_TAG = Fragment;
 
-export type DatepickerProps<ElementTag extends ElementType> = Props<
+export type ProviderProps<ElementTag extends ElementType> = Props<
   ElementTag,
   DatepickerState & {
     weekDays: string[];
@@ -79,7 +79,7 @@ const logReducer: typeof datePickerReducer = (...args) => {
   return state;
 };
 
-export const Datepicker = forwardRef(
+export const Provider = forwardRef(
   <ElementTag extends ElementType = typeof DEFAULT_TAG>(
     {
       defaultValue,
@@ -91,7 +91,7 @@ export const Datepicker = forwardRef(
       config = defaultConfig,
       startOfWeek = 0,
       ...props
-    }: DatepickerProps<ElementTag>,
+    }: ProviderProps<ElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
     const valueRef = useRef<Date | null>(value || defaultValue || null);
@@ -104,22 +104,21 @@ export const Datepicker = forwardRef(
 
       if (externalChange === false) controlledOnChange?.(valueRef.current);
 
-      const parts = config.getDateParts(value || new Date());
-
-      dispatch({ type: 'externalValueChanged', payload: { parts } });
+      dispatch({ type: 'externalValueChanged', payload: value || new Date() });
       // disposables.nextFrame
     });
 
     const [state, dispatch] = useReducer(logReducer, null, () => {
-      const parts = config.getDateParts(valueRef.current || new Date());
+      const date = valueRef.current || new Date();
+      const parts = config.toDateParts(date);
 
       return {
         config,
         disabled,
         year: parts.year,
         month: parts.month,
-        hour: parts.hour,
-        minute: parts.minute,
+        hour: date.getHours(),
+        minute: date.getMinutes(),
         calendarOpen: false,
         hourOpen: false,
         valueRef,
