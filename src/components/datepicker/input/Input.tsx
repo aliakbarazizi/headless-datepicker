@@ -4,7 +4,9 @@ import {
   InputHTMLAttributes,
   Ref,
   useCallback,
+  useContext,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { DatepickerSlot, useDatepickerSlot } from '../../../context/context';
@@ -13,6 +15,7 @@ import { useEvent } from '../../../hooks/useEvent';
 import { useSyncRef } from '../../../hooks/useSyncRef';
 import { Props } from '../../../type';
 import { forwardRef, render } from '../../../utils/render';
+import { PickerContext } from '../picker/Picker';
 
 const DEFAULT_TAG = 'input';
 
@@ -64,9 +67,12 @@ export const Input = forwardRef(
     { format, parse, type, showHour, ...props }: InputProps<ElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
-    const { state, slot, dispatch } = useDatepickerSlot();
+    const { nestedLevel } = useContext(PickerContext);
 
-    useSyncRef(state.inputRef, ref);
+    const inputRef = useRef<HTMLButtonElement | null>(null);
+    useSyncRef(inputRef, ref);
+
+    const { state, slot, dispatch } = useDatepickerSlot();
 
     const _format =
       typeof format === 'string'
@@ -81,17 +87,7 @@ export const Input = forwardRef(
           date,
           _format,
         ),
-      [format, _format, state.config.format],
-    );
-
-    const parser = useCallback(
-      (date: string) =>
-        (typeof parse === 'function' ? parse : state.config.parse)(
-          date,
-          _format,
-          slot.value,
-        ),
-      [parse, _format, state.config.parse, slot.value],
+      [format, _format, state.config],
     );
 
     const [dirtyInputValue, setDirtyInputValue] = useState<string | undefined>(
@@ -107,7 +103,10 @@ export const Input = forwardRef(
 
     const onFocus = useEvent(() =>
       disposables.nextFrame(() =>
-        dispatch({ type: 'openCalendar', payload: state.inputRef }),
+        dispatch({
+          type: 'open',
+          payload: { ref: inputRef, nestedLevel },
+        }),
       ),
     );
 
@@ -118,7 +117,9 @@ export const Input = forwardRef(
 
       if (e.target.value)
         try {
-          parseValue = parser(e.target.value);
+          parseValue = (
+            typeof parse === 'function' ? parse : state.config.parse
+          )(e.target.value, _format, slot.value);
         } catch (e) {
           /* empty */
         }
@@ -142,8 +143,6 @@ export const Input = forwardRef(
       onBlur: !readOnly ? onBlur : undefined,
     };
 
-    console.count('input');
-
-    return render(ourProps, props, slot, DEFAULT_TAG, state.inputRef);
+    return render(ourProps, props, slot, DEFAULT_TAG, inputRef);
   },
 );

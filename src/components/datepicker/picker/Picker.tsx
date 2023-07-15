@@ -6,10 +6,22 @@ import {
   useFloating,
 } from '@floating-ui/react-dom';
 import { UseFloatingOptions } from '@floating-ui/react-dom';
-import { ElementType, Ref } from 'react';
-import { DatepickerSlot, useDatepickerSlot } from '../../../context/context';
+import {
+  ElementType,
+  Ref,
+  createContext,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+} from 'react';
+import {
+  DatepickerSlot,
+  ItemType,
+  useDatepickerSlot,
+} from '../../../context/context';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
-import { useScrollIntoItemIfNeeded } from '../../../hooks/useScrollIntoItemIfNeeded';
 import { useSyncRef } from '../../../hooks/useSyncRef';
 import { Props } from '../../../type';
 import { forwardRef, render } from '../../../utils/render';
@@ -28,6 +40,7 @@ export type PickerProps<ElementTag extends ElementType> = Props<
 > & {
   /**
    * Ignore the internal state and show the always show the picker
+   * If set to true, the default value for `attachTo` will be false
    */
   alwaysOpen?: boolean;
 
@@ -39,6 +52,8 @@ export type PickerProps<ElementTag extends ElementType> = Props<
   /**
    * Override the default floating-ui middlewares
    *
+   * Read more at <a href="https://floating-ui.com/docs/middleware" target="_blank">Floating UI</a>
+   *
    * @see https://floating-ui.com/docs/middleware
    */
   middleware?: UseFloatingOptions['middleware'];
@@ -46,15 +61,32 @@ export type PickerProps<ElementTag extends ElementType> = Props<
   /**
    * The element that picker position will be calculated based on the that
    *
-   * Default is the element that made picker open (<Datepicker.Input /> or <Datepicker.Button />)
+   * Default is the element that made picker open
+   * `<Datepicker.Input />` or `<Datepicker.Button />`
    */
   attachTo?: React.RefObject<HTMLElement> | false;
 
   /**
    * Set picker mode to hour default is false
    */
-  hourPicker?: boolean;
+  defaultType?: ItemType['type'];
+
+  /**
+   *
+   */
+  id?: string;
+
+  /**
+   *
+   */
+  defaultOpen?: boolean;
 };
+
+export const PickerContext = createContext<{
+  nestedLevel: number;
+  id?: string;
+  defaultType?: ItemType['type'];
+}>({ nestedLevel: 0 });
 
 export const Picker = forwardRef(
   <ElementTag extends ElementType = typeof DEFAULT_TAG>(
@@ -64,27 +96,47 @@ export const Picker = forwardRef(
       middleware = defaultMiddleware,
       attachTo,
       style,
-      hourPicker = false,
+      defaultType: _defaultType,
+      defaultOpen: _defaultOpen = false,
+      id,
       ...props
     }: PickerProps<ElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
+    const { nestedLevel } = useContext(PickerContext);
+
+    const _id = useId();
+
+    const pickerId = id || _id;
+
     const { state, slot, dispatch } = useDatepickerSlot();
 
-    const elementAttachTo = alwaysOpen
-      ? state.inputRef
-      : attachTo !== undefined
-      ? attachTo !== false
+    const defaultType = useRef(_defaultType);
+    const defaultOpen = useRef(_defaultOpen);
+
+    useEffect(() => {
+      dispatch({
+        type: 'registerPicker',
+        payload: {
+          id: pickerId,
+          nestedLevel: nestedLevel + 1,
+          defaultType: defaultType.current,
+          defaultOpen: defaultOpen.current,
+        },
+      });
+      return () => dispatch({ type: 'unregisterPicker', payload: pickerId });
+    }, [dispatch, pickerId, nestedLevel]);
+
+    const pickerState = state.pickers[pickerId];
+
+    const elementAttachTo =
+      attachTo === false
+        ? undefined
+        : attachTo !== undefined
         ? attachTo
-        : undefined
-      : !hourPicker
-      ? state.dateAttachRef
-      : state.hourAttachRef;
+        : pickerState?.attach;
 
-    const open =
-      alwaysOpen || (!hourPicker ? state.calendarOpen : state.hourOpen);
-
-    console.log(open);
+    const open = alwaysOpen || pickerState?.isOpen || false;
 
     const { refs, floatingStyles } = useFloating({
       open,
@@ -98,31 +150,35 @@ export const Picker = forwardRef(
     useSyncRef(refs.floating, ref);
 
     const handleClickOutside = () => {
-      if (open) dispatch({ type: !hourPicker ? 'close' : 'closeHour' });
+      if (open && !alwaysOpen)
+        dispatch({ type: `close${pickerId}`, payload: { nestedLevel } });
     };
 
     useOnClickOutside([refs.floating, elementAttachTo], handleClickOutside);
 
-    useScrollIntoItemIfNeeded(
-      open && !hourPicker && slot.mode === 'year',
-      'year',
-      slot.year,
-    );
-    useScrollIntoItemIfNeeded(open && hourPicker, 'hour', slot.hour);
-    useScrollIntoItemIfNeeded(open && hourPicker, 'minute', slot.minute);
-
     const ourProps = {
       style: {
         ...style,
-        ...(elementAttachTo ? floatingStyles : {}),
+        ...(elementAttachTo?.current ? floatingStyles : {}),
       },
     };
 
-    console.count('picker');
-
-    return render(ourProps, props, slot, DEFAULT_TAG, refs.setFloating, {
-      visible: open,
-      hideOnClose,
-    });
+    return (
+      <PickerContext.Provider
+        value={useMemo(
+          () => ({
+            nestedLevel: nestedLevel + 1,
+            id: pickerId,
+            defaultType: defaultType.current,
+          }),
+          [nestedLevel, pickerId],
+        )}
+      >
+        {render(ourProps, props, slot, DEFAULT_TAG, refs.setFloating, {
+          visible: open,
+          hideOnClose,
+        })}
+      </PickerContext.Provider>
+    );
   },
 );

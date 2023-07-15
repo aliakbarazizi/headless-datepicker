@@ -1,12 +1,23 @@
 import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
 
 type OurProps<Tag extends ElementType, Slot> = {
+  /**
+   * React Element type
+   *
+   * You can either use html tag as string or component name
+   */
   as?: Tag;
 
+  /**
+   * You can pass function as argument to access Datepicker context values
+   */
   children?: ReactNode | ((slot: Slot) => ReactNode);
 
+  /**
+   * You can use function for className to access Datepicker context values
+   */
   className?: 'className' extends keyof ComponentPropsWithoutRef<Tag>
-    ? ComponentPropsWithoutRef<Tag>['className'] | ((slot: Slot) => string)
+    ? string | ((slot: Slot) => string)
     : never;
 };
 

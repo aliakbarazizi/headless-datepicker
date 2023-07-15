@@ -1,0 +1,11 @@
+import { Canvas, Markdown, Meta } from '@storybook/blocks';
+import ReadMe from '../README.md?raw';
+import * as ProviderStories from './components/datepicker/provider/Provider.stories';
+
+<Meta title="Get started" />
+
+<Markdown>{ReadMe.match(/#[^#]*/)[0]}</Markdown>
+
+<Canvas of={ProviderStories.DatePicker} meta={ProviderStories} />
+
+<Markdown>{ReadMe.replace(/#[^#]*/, '')}</Markdown>

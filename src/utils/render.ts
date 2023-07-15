@@ -2,7 +2,6 @@ import {
   ElementType,
   ForwardedRef,
   Fragment,
-  PropsWithoutRef,
   ReactElement,
   Ref,
   RefAttributes,
@@ -69,12 +68,12 @@ export function render<TTag extends ElementType, TSlot>(
         );
       }
 
-      const { childClassName, ...childProps } = resolvedChildren.props as any;
+      const { childClassName, ...childProps } = resolvedChildren.props;
 
       const newClassName =
         typeof childClassName === 'function'
           ? (...args: unknown[]) =>
-              classNames(childClassName(...args), props.className)
+              classNames(childClassName(...args), props.className as string)
           : classNames(childClassName, props.className);
 
       const extraProps = newClassName
@@ -165,6 +164,6 @@ function mergeProps(...listOfProps: Props<ElementType, unknown>[]) {
 
 export function forwardRef<T, P = object>(
   component: (props: P, ref: ForwardedRef<T>) => ReactElement | null,
-): (props: PropsWithoutRef<P> & RefAttributes<T>) => ReactElement | null {
+): (props: P & RefAttributes<T>) => ReactElement | null {
   return reactForwardRef(component) as any;
 }

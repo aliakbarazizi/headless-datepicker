@@ -1,4 +1,4 @@
-import { ElementType, Ref, useRef } from 'react';
+import { ElementType, Ref, useContext, useRef } from 'react';
 import {
   Actions,
   DatepickerSlot,
@@ -7,6 +7,7 @@ import {
 import { useSyncRef } from '../../../hooks/useSyncRef';
 import { Props } from '../../../type';
 import { forwardRef, render } from '../../../utils/render';
+import { PickerContext } from '../picker/Picker';
 
 const DEFAULT_TAG = 'button';
 
@@ -18,12 +19,13 @@ export type ButtonProps<ElementTag extends ElementType> = Props<
    * Action can be one of these
    * - 'open' open the calendar
    * - 'close' close the calendar
+   * - 'toggle' close the calendar
    * - 'next' go to next month or year (depend on calendar mode)
    * - 'prev' go to prev month or year (depend on calendar mode)
-   * - 'toggleDayMonthYear' toggle calendar mode between day and month and year
-   * - 'toggleDayMonth' toggle calendar mode between day and month
-   * - 'toggleDayYear' toggle calendar mode between day and year
-   * - 'toggleMonthYear' toggle calendar mode between month and year
+   * - 'dayMonthYear' toggle calendar mode between day and month and year
+   * - 'dayMonth' toggle calendar mode between day and month
+   * - 'dayYear' toggle calendar mode between day and year
+   * - 'monthYear' toggle calendar mode between month and year
    * - 'today' set the value to today
    * - 'todayHour' set the value to today with current hour
    */
@@ -35,13 +37,19 @@ export const Button = forwardRef(
     { action, ...props }: ButtonProps<ElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
+    const { id, nestedLevel } = useContext(PickerContext);
+
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     useSyncRef(buttonRef, ref);
 
     const { slot, dispatch } = useDatepickerSlot();
 
     const ourProps = {
-      onClick: () => dispatch({ type: action, payload: buttonRef }),
+      onClick: () =>
+        dispatch({
+          type: action,
+          payload: { ref: buttonRef, nestedLevel, pickerId: id },
+        }),
     };
 
     return render(ourProps, props, slot, DEFAULT_TAG, buttonRef);

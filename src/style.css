@@ -14,3 +14,19 @@ body {
 body {
   @apply bg-white dark:bg-zinc-600 dark:text-slate-100;
 }
+
+ul {
+  list-style-type: disc;
+}
+
+#storybook-root {
+  height: 100%;
+}
+
+.docblock-argstable-body td span[class] {
+  white-space: pre;
+}
+
+img {
+  display: inline;
+}

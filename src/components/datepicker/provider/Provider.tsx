@@ -14,6 +14,7 @@ import {
   datePickerReducer,
   getSlot,
 } from '../../../context/context';
+import { useDisposables } from '../../../hooks/useDisposables';
 import { useEvent } from '../../../hooks/useEvent';
 import { Props } from '../../../type';
 import { config as defaultConfig } from '../../../utils/config';
@@ -23,9 +24,7 @@ const DEFAULT_TAG = Fragment;
 
 export type ProviderProps<ElementTag extends ElementType> = Props<
   ElementTag,
-  DatepickerState & {
-    weekDays: string[];
-  },
+  DatepickerState,
   'onChange' | 'defaultValue' | 'value'
 > & {
   /**
@@ -69,16 +68,6 @@ export type ProviderProps<ElementTag extends ElementType> = Props<
   startOfWeek?: number;
 };
 
-const logReducer: typeof datePickerReducer = (...args) => {
-  console.log('reducer called', args[1]['type']);
-
-  const state = datePickerReducer(...args);
-
-  if (args[0] !== state) console.log('stated changed');
-
-  return state;
-};
-
 export const Provider = forwardRef(
   <ElementTag extends ElementType = typeof DEFAULT_TAG>(
     {
@@ -95,20 +84,24 @@ export const Provider = forwardRef(
     ref: Ref<HTMLElement>,
   ) => {
     const valueRef = useRef<Date | null>(value || defaultValue || null);
-    const inputRef = useRef<HTMLElement | null>(null);
 
-    const onChange = useEvent((value: Date | null, externalChange = false) => {
+    const disposables = useDisposables();
+
+    const onChange = useEvent((value: Date | null) => {
       if (isEqual(valueRef.current, value)) return;
 
-      valueRef.current = value;
-
-      if (externalChange === false) controlledOnChange?.(valueRef.current);
-
-      dispatch({ type: 'externalValueChanged', payload: value || new Date() });
+      disposables.nextFrame(() => {
+        valueRef.current = value;
+        controlledOnChange?.(valueRef.current);
+        dispatch({
+          type: 'externalValueChanged',
+          payload: value || new Date(),
+        });
+      });
       // disposables.nextFrame
     });
 
-    const [state, dispatch] = useReducer(logReducer, null, () => {
+    const [state, dispatch] = useReducer(datePickerReducer, null, () => {
       const date = valueRef.current || new Date();
       const parts = config.toDateParts(date);
 
@@ -122,12 +115,9 @@ export const Provider = forwardRef(
         calendarOpen: false,
         hourOpen: false,
         valueRef,
-        inputRef,
         startOfWeek,
-        mode: 'day' as const,
         onChange,
-        dateAttachRef: undefined,
-        hourAttachRef: undefined,
+        pickers: {},
       };
     });
 
@@ -172,8 +162,6 @@ export const Provider = forwardRef(
     // })
 
     const ourProps = {};
-
-    console.count('datepicker');
 
     return (
       <DatepickerContext.Provider value={{ state, dispatch }}>

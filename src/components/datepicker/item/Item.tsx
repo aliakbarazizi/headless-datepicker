@@ -1,4 +1,4 @@
-import { ElementType, Ref } from 'react';
+import { ElementType, Ref, useContext } from 'react';
 import {
   DateItemType,
   DatepickerSlot,
@@ -7,6 +7,7 @@ import {
 } from '../../../context/context';
 import { Props } from '../../../type';
 import { forwardRef, render } from '../../../utils/render';
+import { PickerContext } from '../picker/Picker';
 
 const DEFAULT_TAG = 'button';
 
@@ -23,16 +24,21 @@ export const Item = forwardRef(
     { item, ...props }: ItemProps<ElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
+    const { id } = useContext(PickerContext);
+
     const { slot, dispatch } = useDatepickerSlot();
 
     const ourProps = {
       [itemDataAttribute]: item.type + '-' + item.text,
-      onClick: () => {
-        dispatch({
-          type: 'select',
-          payload: item,
-        });
-      },
+      onClick:
+        'isHeader' in item && item.isHeader
+          ? undefined
+          : () => {
+              dispatch({
+                type: 'select',
+                payload: { item, pickerId: id },
+              });
+            },
     };
 
     return render(ourProps, props, slot, DEFAULT_TAG, ref);

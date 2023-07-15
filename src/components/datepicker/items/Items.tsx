@@ -1,13 +1,14 @@
-import { isSameDay } from 'date-fns';
-import { ElementType, Ref, useMemo } from 'react';
+import { ElementType, Ref, useContext, useMemo } from 'react';
 import {
   DateItemType,
+  DatepickerSlot,
   HourItemType,
   useDatepickerSlot,
 } from '../../../context/context';
+import { useScrollIntoItemIfNeeded } from '../../../hooks/useScrollIntoItemIfNeeded';
 import { Props } from '../../../type';
-import { match } from '../../../utils/match';
 import { forwardRef, render } from '../../../utils/render';
+import { PickerContext } from '../picker/Picker';
 
 const DEFAULT_TAG = 'div';
 
@@ -20,10 +21,16 @@ export type ItemsProps<
   ElementTag,
   {
     items: Extract<ItemsType, { type: Type }>[];
-    isSelected: (item: Extract<ItemsType, { type: Type }>) => boolean;
-  }
+    type: Type;
+  } & DatepickerSlot
 > & {
-  type: Type;
+  type?: Type;
+
+  /**
+   * Scroll to selected item when mounted
+   * this is only for year, minute and hour
+   */
+  disableAutoScroll?: boolean;
 };
 
 export const Items = forwardRef(
@@ -31,55 +38,80 @@ export const Items = forwardRef(
     Type extends ItemsType['type'],
     ElementTag extends ElementType = typeof DEFAULT_TAG,
   >(
-    { type, ...props }: ItemsProps<ElementTag, Type>,
+    { type: _type, disableAutoScroll, ...props }: ItemsProps<ElementTag, Type>,
     ref: Ref<HTMLElement>,
   ) => {
+    const { id, defaultType } = useContext(PickerContext);
     const { state } = useDatepickerSlot();
+
+    const picker = id ? state.pickers[id] : undefined;
+
+    const type = _type || picker?.type || defaultType;
+
+    if (type === undefined) {
+      throw new Error(
+        'No type provided, You need either need set the type to Items or set the defaultType to Picker component',
+      );
+    }
+
+    const value = state.valueRef.current;
 
     const items = useMemo(
       () =>
         type === 'hour' || type === 'minute'
           ? state.config[(type + 's') as `${typeof type}s`]({
               type,
+              hour: state.hour,
+              minute: state.minute,
             } as any)
           : state.config[(type + 's') as `${typeof type}s`]({
               type,
               year: state.year,
               month: state.month,
-              value: state.valueRef.current,
+              value: value,
               startOfWeek: state.startOfWeek,
             } as any),
       [
         type,
-        state.valueRef,
+        value,
         state.config,
         state.month,
         state.year,
+        state.hour,
+        state.minute,
         state.startOfWeek,
       ],
     );
 
-    const isSelected = (item: DateItemType | HourItemType) =>
-      match(item.type, {
-        day: () =>
-          state.valueRef.current !== null &&
-          isSameDay(state.valueRef.current, (item as DateItemType).value),
-        month: () => state.month === item.value,
-        year: () => state.year === item.value,
-        hour: () => state.hour === item.value,
-        minute: () => state.minute === item.value,
-      });
+    // const isSelected = (item: DateItemType | HourItemType) =>
+    //   match(item.type, {
+    //     day: () =>
+    //       state.valueRef.current !== null &&
+    //       isSameDay(state.valueRef.current, (item as DateItemType).value),
+    //     month: () => state.month === item.value,
+    //     year: () => state.year === item.value,
+    //     hour: () => state.hour === item.value,
+    //     minute: () => state.minute === item.value,
+    //   });
+
+    useScrollIntoItemIfNeeded(
+      disableAutoScroll === false &&
+        picker !== undefined &&
+        picker.isOpen &&
+        ['year', 'hour', 'minute'].includes(type),
+      type,
+      type !== 'day' ? state[type] : undefined,
+    );
 
     const ourProps = {};
-
-    console.count('items');
 
     return render(
       ourProps,
       props,
       {
         items,
-        isSelected,
+        type,
+        ...state,
         // weekDays,
       },
       DEFAULT_TAG,

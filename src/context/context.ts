@@ -105,16 +105,40 @@ export type DateItemType =
 export type HourItemType =
   | {
       key: Key;
+
       type: 'hour';
+
+      isToday: false;
+
+      isSelected: boolean;
+
+      isHeader: false;
+
+      disabled: false;
+
       value: number;
+
       text: string;
     }
   | {
       key: Key;
+
       type: 'minute';
+
+      isToday: false;
+
+      isSelected: boolean;
+
+      isHeader: false;
+
+      disabled: false;
+
       value: number;
+
       text: string;
     };
+
+export type ItemType = DateItemType | HourItemType;
 
 export type DateParts = {
   day: number;
@@ -137,45 +161,67 @@ export type GetDateItems = {
 } & {
   [key in `${HourItemType['type']}s`]: (state: {
     type: RemoveS<key>;
+    hour: number;
+    minute: number;
   }) => Array<Extract<HourItemType, { type: RemoveS<key> }>>;
 };
 
 export type Actions =
-  | 'openCalendar'
-  | 'closeCalendar'
-  | 'toggleCalendar'
-  | 'openHour'
-  | 'closeHour'
-  | 'toggleHour'
-  | 'close'
-  | 'next'
-  | 'prev'
-  | 'toggleDayMonthYear'
-  | 'toggleDayMonth'
-  | 'toggleDayYear'
-  | 'toggleMonthYear'
+  | `open${string}`
+  | `close${string}`
+  | `toggle${string}`
+  | `next${string}`
+  | `prev${string}`
+  | `dayMonthYear${string}`
+  | `dayMonth${string}`
+  | `dayYear${string}`
+  | `monthYear${string}`
   | 'today'
   | 'todayHour';
 
 export type DatepickerContextActions =
   | {
       type: Actions;
-      payload?: RefObject<HTMLElement | null>;
+      payload: {
+        ref?: RefObject<HTMLElement | null>;
+        pickerId?: undefined | string;
+        nestedLevel: number;
+      };
     }
   | {
       type: 'select';
-      payload: DateItemType | HourItemType;
+      payload: { item: ItemType; pickerId: string | undefined };
     }
   | {
       type: 'externalValueChanged';
       payload: Date;
+    }
+  | {
+      type: 'registerPicker';
+      payload: {
+        id: string;
+        nestedLevel: number;
+        defaultType?: ItemType['type'];
+        defaultOpen: boolean;
+      };
+    }
+  | {
+      type: 'unregisterPicker';
+      payload: string;
     };
 
 export type DatepickerSlot = {
-  calendarOpen: boolean;
-  hourOpen: boolean;
+  pickers: {
+    [index: string]: {
+      nestedLevel: number;
+      attach: MutableRefObject<HTMLElement | null> | undefined;
+      isOpen: boolean;
+      type?: ItemType['type'];
+      defaultType?: ItemType['type'];
+    };
+  };
+
   disabled: boolean;
-  mode: 'day' | 'month' | 'year';
 
   value: Date | null;
   month: number;
@@ -193,7 +239,6 @@ export type DatepickerConfig = {
   format: (date: Date | null, format: string) => string;
   parse: (date: string, format: string, referenceDate: Date | null) => Date;
   toDateParts: (date: Date) => DateParts;
-  fromDateParts: (date: DateParts) => Date;
 } & GetDateItems;
 
 export type DatepickerState = Omit<DatepickerSlot, 'monthName' | 'value'> & {
@@ -203,11 +248,6 @@ export type DatepickerState = Omit<DatepickerSlot, 'monthName' | 'value'> & {
 
   valueRef: RefObject<Date | null>;
 
-  inputRef: MutableRefObject<HTMLElement | null>;
-
-  dateAttachRef: MutableRefObject<HTMLElement | null> | undefined;
-  hourAttachRef: MutableRefObject<HTMLElement | null> | undefined;
-
   onChange: (value: Date | null) => void;
 };
 
@@ -215,106 +255,180 @@ export const datePickerReducer = (
   state: DatepickerState,
   { type, payload }: DatepickerContextActions,
 ): DatepickerState => {
-  switch (type) {
-    case 'openCalendar':
-      return { ...state, calendarOpen: true, dateAttachRef: payload };
-    case 'closeCalendar':
-      return {
-        ...state,
-        calendarOpen: false,
-        mode: 'day',
-        dateAttachRef: undefined,
-      };
-    case 'toggleCalendar':
-      return {
-        ...state,
-        calendarOpen: !state.calendarOpen,
-        mode: 'day',
-        dateAttachRef: state.calendarOpen ? undefined : payload,
-      };
-    case 'openHour':
-      return { ...state, hourOpen: true, hourAttachRef: payload };
-    case 'closeHour':
-      return { ...state, hourOpen: false, hourAttachRef: undefined };
-    case 'toggleHour':
-      return {
-        ...state,
-        hourOpen: !state.hourOpen,
-        hourAttachRef: state.hourOpen ? undefined : payload,
-      };
-    case 'close':
-      return {
-        ...state,
-        calendarOpen: false,
-        hourOpen: false,
-        mode: 'day',
-        dateAttachRef: undefined,
-        hourAttachRef: undefined,
-      };
-    case 'next': {
-      const { month, year } = state;
-      return match(state.mode, {
-        day: () => ({
-          ...state,
-          year: month === 12 ? year + 1 : year,
-          month: (month % 12) + 1,
-        }),
-        month: () => ({
-          ...state,
-          year: year + 1,
-          month: month,
-        }),
-        year: () => ({
-          ...state,
-          year: year + 1,
-          month: month,
-        }),
-      });
-    }
-    case 'prev': {
-      const { month, year } = state;
+  const _match = type.match(
+    /^(open|close|toggle|next|prev|dayMonthYear|dayMonth|dayYear|monthYear)(.*)$/,
+  );
+  if (_match) {
+    type = _match[1] as Actions;
+    let index = _match[2];
 
-      return match(state.mode, {
-        day: () => ({
+    if (index === '') {
+      index = ['open', 'close', 'toggle'].includes(type)
+        ? Object.keys(state.pickers).find(
+            (key) =>
+              state.pickers[key].nestedLevel ===
+              (payload as any).nestedLevel + 1,
+          ) || ''
+        : (payload as any).pickerId;
+    }
+
+    switch (type) {
+      case 'open':
+        return {
           ...state,
-          year: month === 1 ? year - 1 : year,
-          month: mod(month - 2, 12) + 1,
-        }),
-        month: () => ({
+          pickers: {
+            ...state.pickers,
+            [index]: {
+              ...state.pickers[index],
+              attach: payload.ref,
+              isOpen: true,
+            },
+          },
+        };
+      case 'close':
+        return {
           ...state,
-          year: year - 1,
-          month: month,
-        }),
-        year: () => ({
+          pickers: {
+            ...state.pickers,
+            [index]: {
+              ...state.pickers[index],
+              attach: undefined,
+              isOpen: false,
+              type: state.pickers[index].defaultType,
+            },
+          },
+        };
+      case 'toggle':
+        return {
           ...state,
-          year: year - 1,
-          month: month,
-        }),
-      });
+          pickers: {
+            ...state.pickers,
+            [index]: {
+              ...state.pickers[index],
+              attach: state.pickers[index]?.isOpen ? undefined : payload.ref,
+              isOpen: !state.pickers[index].isOpen,
+              type: state.pickers[index].defaultType,
+            },
+          },
+        };
+      case 'next': {
+        if (!state.pickers[index].type) return state;
+
+        const { month, year } = state;
+        return match(state.pickers[index].type!, {
+          hour: () => state,
+          minute: () => state,
+          day: () => ({
+            ...state,
+            year: month === 12 ? year + 1 : year,
+            month: (month % 12) + 1,
+          }),
+          month: () => ({
+            ...state,
+            year: year + 1,
+            month: month,
+          }),
+          year: () => ({
+            ...state,
+            year: year + 1,
+            month: month,
+          }),
+        });
+      }
+      case 'prev': {
+        if (!state.pickers[index].type) return state;
+
+        const { month, year } = state;
+
+        return match(state.pickers[index].type!, {
+          hour: () => state,
+          minute: () => state,
+          day: () => ({
+            ...state,
+            year: month === 1 ? year - 1 : year,
+            month: mod(month - 2, 12) + 1,
+          }),
+          month: () => ({
+            ...state,
+            year: year - 1,
+            month: month,
+          }),
+          year: () => ({
+            ...state,
+            year: year - 1,
+            month: month,
+          }),
+        });
+      }
+      case 'dayMonthYear': {
+        return {
+          ...state,
+          pickers: {
+            ...state.pickers,
+            [index]: {
+              ...state.pickers[index],
+              type: state.pickers[index].type == 'day' ? 'month' : 'year',
+            },
+          },
+        };
+      }
+      case 'dayMonth': {
+        return {
+          ...state,
+          pickers: {
+            ...state.pickers,
+            [index]: {
+              ...state.pickers[index],
+              type: state.pickers[index].type == 'month' ? 'day' : 'month',
+            },
+          },
+        };
+      }
+      case 'dayYear': {
+        return {
+          ...state,
+          pickers: {
+            ...state.pickers,
+            [index]: {
+              ...state.pickers[index],
+              type: state.pickers[index].type == 'year' ? 'day' : 'year',
+            },
+          },
+        };
+      }
+      case 'monthYear': {
+        return {
+          ...state,
+          pickers: {
+            ...state.pickers,
+            [index]: {
+              ...state.pickers[index],
+              type: state.pickers[index].type == 'year' ? 'month' : 'year',
+            },
+          },
+        };
+      }
     }
-    case 'toggleDayMonthYear': {
+  }
+
+  switch (type) {
+    case 'registerPicker':
       return {
         ...state,
-        mode: state.mode === 'day' ? 'month' : 'year',
+        pickers: {
+          ...state.pickers,
+          [payload.id]: {
+            nestedLevel: payload.nestedLevel,
+            defaultType: payload.defaultType,
+            type: payload.defaultType,
+            attach: undefined,
+            isOpen: payload.defaultOpen,
+          },
+        },
       };
-    }
-    case 'toggleDayMonth': {
-      return {
-        ...state,
-        mode: state.mode === 'month' ? 'day' : 'month',
-      };
-    }
-    case 'toggleDayYear': {
-      return {
-        ...state,
-        mode: state.mode === 'year' ? 'day' : 'year',
-      };
-    }
-    case 'toggleMonthYear': {
-      return {
-        ...state,
-        mode: state.mode === 'year' ? 'month' : 'year',
-      };
+    case 'unregisterPicker': {
+      const { [payload]: _, ...pickers } = state.pickers;
+      return { ...state, pickers };
     }
     case 'today': {
       const today = new Date();
@@ -346,22 +460,45 @@ export const datePickerReducer = (
 
       let newValue: Date | null = null;
 
-      switch (payload.type) {
+      switch (payload.item.type) {
         case 'day': {
-          newValue = new Date(payload.value);
+          newValue = new Date(payload.item.value);
           newValue.setHours(state.hour, state.minute);
 
-          newState.calendarOpen = false;
+          if (payload.pickerId)
+            newState.pickers = {
+              ...state.pickers,
+              [payload.pickerId]: {
+                ...state.pickers[payload.pickerId],
+                attach: undefined,
+                isOpen: false,
+                type: state.pickers[payload.pickerId].defaultType,
+              },
+            };
           break;
         }
         case 'month': {
-          newState.mode = 'day';
-          newState.month = payload.value;
+          newState.month = payload.item.value;
+          if (payload.pickerId)
+            newState.pickers = {
+              ...state.pickers,
+              [payload.pickerId]: {
+                ...state.pickers[payload.pickerId],
+                type: state.pickers[payload.pickerId].defaultType,
+              },
+            };
           break;
         }
         case 'year': {
-          newState.mode = 'month';
-          newState.year = payload.value;
+          newState.year = payload.item.value;
+          if (payload.pickerId)
+            newState.pickers = {
+              ...state.pickers,
+              [payload.pickerId]: {
+                ...state.pickers[payload.pickerId],
+                type: 'month',
+              },
+            };
           break;
         }
         case 'hour': {
@@ -369,10 +506,19 @@ export const datePickerReducer = (
             ? new Date(state.valueRef.current)
             : new Date();
 
-          newValue.setHours(payload.value);
+          newValue.setHours(payload.item.value);
 
-          newState.hour = payload.value;
-          newState.hourOpen = false;
+          newState.hour = payload.item.value;
+
+          if (payload.pickerId)
+            newState.pickers = {
+              ...state.pickers,
+              [payload.pickerId]: {
+                ...state.pickers[payload.pickerId],
+                attach: undefined,
+                isOpen: false,
+              },
+            };
           break;
         }
         case 'minute': {
@@ -380,10 +526,19 @@ export const datePickerReducer = (
             ? new Date(state.valueRef.current)
             : new Date();
 
-          newValue.setMinutes(payload.value);
+          newValue.setMinutes(payload.item.value);
 
-          newState.minute = payload.value;
-          newState.hourOpen = false;
+          newState.minute = payload.item.value;
+
+          if (payload.pickerId)
+            newState.pickers = {
+              ...state.pickers,
+              [payload.pickerId]: {
+                ...state.pickers[payload.pickerId],
+                attach: undefined,
+                isOpen: false,
+              },
+            };
           break;
         }
         default: {
@@ -420,7 +575,7 @@ export const DatepickerContext = createContext<{
 
 export function useDatepickerContext() {
   const context = useContext(DatepickerContext);
-  if (!context) throw new Error('No context provided');
+  if (!context) throw new Error('You need to use component inside Datepicker');
   return context;
 }
 
@@ -434,10 +589,8 @@ export function useDatepickerSlot() {
 
 export function getSlot(state: DatepickerState): DatepickerSlot {
   return {
-    calendarOpen: state.calendarOpen,
-    hourOpen: state.hourOpen,
+    pickers: state.pickers,
     disabled: state.disabled,
-    mode: state.mode,
 
     value: state.valueRef.current,
     month: state.month,

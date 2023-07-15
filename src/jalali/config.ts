@@ -63,7 +63,6 @@ export const config: DatepickerConfig = {
 
     return jalali;
   },
-
   toDateParts: (date) =>
     new Intl.DateTimeFormat('fa-IR-u-nu-latn', {
       year: 'numeric',
@@ -76,7 +75,6 @@ export const config: DatepickerConfig = {
           acc[part.type as keyof DateParts] = +part.value;
         return acc;
       }, {} as any),
-  fromDateParts: (date) => {},
 
   years: ({ type, year }) => {
     const todayYear = toJalaali(new Date()).jy;
@@ -153,19 +151,27 @@ export const config: DatepickerConfig = {
         })),
       );
   },
-  hours: ({ type }) =>
+  hours: ({ type, hour }) =>
     [...Array(24).keys()].map((value) => ({
       type,
       key: value,
       value: value,
       text: value + '',
+      isToday: false,
+      isSelected: hour === value,
+      isHeader: false,
+      disabled: false,
     })),
-  minutes: ({ type }) =>
+  minutes: ({ type, minute }) =>
     [...Array(60).keys()].map((value) => ({
       type,
       key: value,
       value: value,
       text: value + '',
+      isToday: false,
+      isSelected: minute === value,
+      isHeader: false,
+      disabled: false,
     })),
 };
 
