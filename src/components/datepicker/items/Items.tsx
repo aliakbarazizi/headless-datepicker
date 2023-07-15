@@ -88,17 +88,6 @@ export const Items = forwardRef(
       ],
     );
 
-    // const isSelected = (item: DateItemType | HourItemType) =>
-    //   match(item.type, {
-    //     day: () =>
-    //       state.valueRef.current !== null &&
-    //       isSameDay(state.valueRef.current, (item as DateItemType).value),
-    //     month: () => state.month === item.value,
-    //     year: () => state.year === item.value,
-    //     hour: () => state.hour === item.value,
-    //     minute: () => state.minute === item.value,
-    //   });
-
     useScrollIntoItemIfNeeded(
       disableAutoScroll === false &&
         picker !== undefined &&
@@ -117,7 +106,6 @@ export const Items = forwardRef(
         items,
         type,
         ...state,
-        // weekDays,
       },
       DEFAULT_TAG,
       ref,

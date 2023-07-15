@@ -45,7 +45,7 @@
     "build": "yarn lint && yarn build:tsc && yarn build:dist && yarn build:storybook",
     "build:tsc": "tsc",
     "build:dist": "vite build",
-    "build:storybook": "storybook build",
+    "build:storybook": "storybook build && node ./.storybook/fix-title.js 'React headless datepicker' ../",
     "preview": "vite preview",
     "postinstall": "husky install"
   },
