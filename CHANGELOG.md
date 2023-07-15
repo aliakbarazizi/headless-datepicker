@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.0.5...v1.1.0) (2023-07-15)
+
+
+### Features
+
+* add disableClickOutside prop ([9477944](https://github.com/aliakbarazizi/headless-datepicker/commit/9477944656dba9fc6a4586442312c7f6d1de1d58))
+* first stable release ([5b9dbd9](https://github.com/aliakbarazizi/headless-datepicker/commit/5b9dbd9c832d828d357e25cda0897a5bb871a9e6))
+
+
+### Bug Fixes
+
+* rearrange codes ([6b3a569](https://github.com/aliakbarazizi/headless-datepicker/commit/6b3a56991605b3f8e0f6515e66e1481f13856d2b))
+
 ## [1.0.5](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.0.4...v1.0.5) (2023-06-23)
 
 
