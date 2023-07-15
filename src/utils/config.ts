@@ -39,8 +39,6 @@ export const config: DatepickerConfig = {
     'November',
     'December',
   ],
-  defaultDateFormat: 'yyyy/MM/dd',
-  defaultDateHourFormat: 'yyyy/MM/dd HH:mm',
   format: (date, format) => (date ? dateFromat(date, format) : ''),
   parse: (date, format, referenceDate) => {
     const parseDate = parse(date, format, referenceDate || new Date());

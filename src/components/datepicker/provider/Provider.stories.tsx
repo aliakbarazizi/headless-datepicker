@@ -34,6 +34,9 @@ const meta = {
         },
       },
     },
+    value: { control: false },
+    defaultValue: { control: false },
+    config: { control: false },
   },
   render: (args) => <ProviderWithHooks {...args} />,
 } satisfies Meta<typeof Provider>;

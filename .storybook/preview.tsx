@@ -91,7 +91,10 @@ const preview: Preview = {
       control: false,
     },
     as: {
-      control: 'text',
+      control: false,
+    },
+    className: {
+      control: false,
     },
   },
 };
@@ -128,7 +131,7 @@ export const decorators: DecoratorFunction<any>[] = [
     parameters.isJalali = isJalali;
 
     return (
-      <div className="flex h-full">
+      <div className="flex h-full min-h-[536px]">
         <Datepicker
           key={isJalali ? 'jalali' : 'normal'}
           config={isJalali ? config : undefined}

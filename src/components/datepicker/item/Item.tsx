@@ -26,12 +26,12 @@ export const Item = forwardRef(
   ) => {
     const { id } = useContext(PickerContext);
 
-    const { slot, dispatch } = useDatepickerSlot();
+    const { state, slot, dispatch } = useDatepickerSlot();
 
     const ourProps = {
       [itemDataAttribute]: item.type + '-' + item.text,
       onClick:
-        'isHeader' in item && item.isHeader
+        ('isHeader' in item && item.isHeader) || state.disabled
           ? undefined
           : () => {
               dispatch({

@@ -10,10 +10,26 @@ and logic while allowing developers to design their own user interface.
 
 ## Features
 
-- Datepicker, Hourpicker, and Calendar Modes: The component supports multiple modes, including datepicker, hourpicker, and calendar modes, allowing users to select dates, hours, or navigate through a full calendar.
-- Headless Design: The component follows a headless architecture, separating the logic from the presentation layer. This enables developers to design and customize the user interface according to their application's specific needs.
-- Multi Picker Support: The component allows for nesting multiple pickers within each other, enabling advanced and complex selection scenarios.
-- Keyboard Navigation: Users can easily navigate and interact with the datepicker using keyboard shortcuts, enhancing accessibility and improving the user experience.
+- **Datepicker, Hourpicker, and Calendar Modes:**
+  The component supports multiple modes, including datepicker, hourpicker, and calendar modes, allowing users to select dates, hours, or navigate through a full calendar.
+
+- **Headless Design:**
+  The component follows a headless architecture, separating the logic from the presentation layer. This enables developers to design and customize the user interface according to their application's specific needs.
+
+- **Multi Picker Support:**
+  The component allows for nesting multiple pickers within each other, enabling advanced and complex selection scenarios.
+
+- **Keyboard Navigation:**
+  Users can easily navigate and interact with the datepicker using keyboard shortcuts, enhancing accessibility and improving the user experience.
+
+- **Written in TypeScript with Type Support:**
+  The component is written in TypeScript, providing strong typing and enabling developers to benefit from type-checking during development.
+
+- **Support for other Calendar Types with Config:**
+  The component provides support for other calendar types through configuration options. Developers can customize the calendar type based on their requirements.
+
+- **Built-in Config for Jalali Calendar:**
+  The component comes with a built-in configuration for the Jalali calendar, making it easy to implement and use the Jalali calendar system.
 
 ## Installation
 

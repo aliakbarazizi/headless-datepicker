@@ -196,6 +196,7 @@ export type DatepickerContextActions =
       type: 'externalValueChanged';
       payload: Date;
     }
+  | { type: 'defaultChanged'; payload: Partial<DatepickerState> }
   | {
       type: 'registerPicker';
       payload: {
@@ -234,8 +235,6 @@ export type DatepickerSlot = {
 export type DatepickerConfig = {
   dayNames: string[];
   monthNames: string[];
-  defaultDateFormat: string;
-  defaultDateHourFormat: string;
   format: (date: Date | null, format: string) => string;
   parse: (date: string, format: string, referenceDate: Date | null) => Date;
   toDateParts: (date: Date) => DateParts;
@@ -263,13 +262,21 @@ export const datePickerReducer = (
     let index = _match[2];
 
     if (index === '') {
-      index = ['open', 'close', 'toggle'].includes(type)
-        ? Object.keys(state.pickers).find(
-            (key) =>
-              state.pickers[key].nestedLevel ===
-              (payload as any).nestedLevel + 1,
-          ) || ''
-        : (payload as any).pickerId;
+      index =
+        (['open', 'close', 'toggle'].includes(type)
+          ? Object.keys(state.pickers)
+              .reverse()
+              .find(
+                (key) =>
+                  state.pickers[key].nestedLevel ===
+                  (payload as any).nestedLevel + 1,
+              ) || ''
+          : (payload as any).pickerId) ||
+        Object.keys(state.pickers).reverse()[0];
+
+      if (index === undefined) {
+        throw new Error('There is no Picker in the current Provider');
+      }
     }
 
     switch (type) {
@@ -551,6 +558,12 @@ export const datePickerReducer = (
       }
 
       return newState;
+    }
+    case 'defaultChanged': {
+      return {
+        ...state,
+        ...payload,
+      };
     }
     case 'externalValueChanged': {
       const parts = state.config.toDateParts(payload);

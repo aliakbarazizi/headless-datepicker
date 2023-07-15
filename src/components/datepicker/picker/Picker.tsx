@@ -39,8 +39,22 @@ export type PickerProps<ElementTag extends ElementType> = Props<
   DatepickerSlot
 > & {
   /**
+   * Set a unique id for the picker
+   * It can be useful when you have multiple pickers
+   * and you want to use `<Button />`
+   * @see `Button.action` for more information
+   */
+  id?: string;
+
+  /**
+   * Set whether or not the picker should be opened by default
+   * You may need to set the `attachTo` property to attach the picker to the element
+   */
+  defaultOpen?: boolean;
+
+  /**
    * Ignore the internal state and show the always show the picker
-   * If set to true, the default value for `attachTo` will be false
+   * You may need to set the `attachTo` property to attach the picker to the element
    */
   alwaysOpen?: boolean;
 
@@ -50,13 +64,10 @@ export type PickerProps<ElementTag extends ElementType> = Props<
   hideOnClose?: boolean;
 
   /**
-   * Override the default floating-ui middlewares
-   *
-   * Read more at <a href="https://floating-ui.com/docs/middleware" target="_blank">Floating UI</a>
-   *
-   * @see https://floating-ui.com/docs/middleware
+   * Set the default value for `<Items />`
+   * You must either set the default value or set the type in the `Items` component
    */
-  middleware?: UseFloatingOptions['middleware'];
+  defaultType?: ItemType['type'];
 
   /**
    * The element that picker position will be calculated based on the that
@@ -67,19 +78,15 @@ export type PickerProps<ElementTag extends ElementType> = Props<
   attachTo?: React.RefObject<HTMLElement> | false;
 
   /**
-   * Set picker mode to hour default is false
-   */
-  defaultType?: ItemType['type'];
-
-  /**
+   * Override the default floating-ui middlewares
    *
-   */
-  id?: string;
-
-  /**
+   * Only works if attachTo is not `false`.
    *
+   * Read more at <a href="https://floating-ui.com/docs/middleware" target="_blank">Floating UI</a>
+   *
+   * @see https://floating-ui.com/docs/middleware
    */
-  defaultOpen?: boolean;
+  middleware?: UseFloatingOptions['middleware'];
 };
 
 export const PickerContext = createContext<{
@@ -134,6 +141,8 @@ export const Picker = forwardRef(
         ? undefined
         : attachTo !== undefined
         ? attachTo
+        : alwaysOpen
+        ? undefined
         : pickerState?.attach;
 
     const open = alwaysOpen || pickerState?.isOpen || false;

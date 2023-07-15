@@ -29,8 +29,6 @@ export const config: DatepickerConfig = {
     'بهمن',
     'اسفند',
   ],
-  defaultDateFormat: 'yyyy/MM/dd',
-  defaultDateHourFormat: 'yyyy/MM/dd HH:mm',
   format: (date, _format) => {
     if (!date) return '';
     const jalali = toJalaali(date);

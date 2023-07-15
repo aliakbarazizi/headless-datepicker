@@ -53,7 +53,7 @@ export const DatePicker = {
         </div>
         ${storyToJsx(Next, {}, 'Button', 4)}
       </div>
-      ${storyToJsx(DateItems, {}, 'Items', 3)}
+      ${storyToJsx(DateItems, { type: false }, 'Items', 3)}
       ${storyToJsx(Today, {}, 'Button', 3)}
     </>
   )}`,
@@ -76,7 +76,7 @@ export const DatePicker = {
           </div>
           <Button {...Next.args} />
         </div>
-        <Items {...DateItems.args} />
+        <Items {...DateItems.args} type={undefined} />
         <Button {...Today.args} />
       </>
     ),
@@ -126,7 +126,7 @@ export const DateHourPicker: Story = {
         </div>
         ${storyToJsx(Next, {}, 'Button', 4)}
       </div>
-      ${storyToJsx(DateItems, {}, 'Items', 3)}
+      ${storyToJsx(DateItems, { type: false }, 'Items', 3)}
       ${storyToJsx(Today, {}, 'Button', 3)}
     </>
   )}`,
@@ -148,7 +148,7 @@ export const DateHourPicker: Story = {
           </div>
           <Button {...Next.args} />
         </div>
-        <Items {...DateItems.args} />
+        <Items {...DateItems.args} type={undefined} />
         <Button {...Today.args} />
         <Picker {...HourPicker.args} alwaysOpen={false} />
       </>

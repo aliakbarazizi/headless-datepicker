@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { classNames } from '../../../utils/class-names';
+import { Items } from '../items/Items';
+import { DateItems } from '../items/Items.stories';
+import { Picker } from '../picker/Picker';
 import { Button } from './Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -15,6 +18,22 @@ const meta = {
         },
       },
     },
+    action: {
+      control: 'select',
+      options: [
+        'open',
+        'close',
+        'toggle',
+        'next',
+        'prev',
+        'dayMonthYear',
+        'dayMonth',
+        'dayYear',
+        'monthYear',
+        'today',
+        'todayHour',
+      ],
+    },
   },
   parameters: {
     showDatepicker: true,
@@ -25,7 +44,9 @@ const meta = {
         <div
           className={classNames(
             'bg-gray-500 text-gray-200 overflow-hidden',
-            args.className?.toString().includes('rounded-full')
+            args.action === 'today'
+              ? '-mt-4'
+              : args.className?.toString().includes('rounded-full')
               ? 'rounded-full'
               : 'rounded-md',
           )}
@@ -41,12 +62,28 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Toggle = {
+  parameters: {
+    showDatepicker: false,
+  },
   args: {
     action: 'toggle',
     className:
       'leading-2 p-2 text-lg font-semibold hover:bg-gray-700 hover:text-white',
-    children: 'Toggle Hour',
+    children: 'Toggle picker state',
   },
+  decorators: [
+    (Story) => (
+      <>
+        <Story />
+        <Picker
+          defaultType="day"
+          className="rounded-md bg-white p-4 shadow-md dark:bg-gray-800 dark:text-gray-300 w-[352px]"
+        >
+          <Items {...DateItems.args} type={undefined} />
+        </Picker>
+      </>
+    ),
+  ],
 } satisfies Story;
 
 export const DayMonth = {
@@ -117,5 +154,13 @@ export const Today = {
     className:
       'mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
     children: 'Today',
+  },
+} satisfies Story;
+
+export const TodayHour = {
+  args: {
+    action: 'todayHour',
+    className: 'w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
+    children: 'Today with hour',
   },
 } satisfies Story;

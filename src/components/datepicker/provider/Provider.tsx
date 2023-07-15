@@ -125,6 +125,14 @@ export const Provider = forwardRef(
       onChange(value || null);
     }, [value, onChange]);
 
+    useEffect(() => {
+      dispatch({ type: 'defaultChanged', payload: { startOfWeek } });
+    }, [startOfWeek]);
+
+    useEffect(() => {
+      dispatch({ type: 'defaultChanged', payload: { disabled } });
+    }, [disabled]);
+
     // let d = useDisposables()
     // let handleKeyDown = useEvent((event: ReactKeyboardEvent<HTMLButtonElement>) => {
     //   switch (event.key) {

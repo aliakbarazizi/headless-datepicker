@@ -16,18 +16,28 @@ export type ButtonProps<ElementTag extends ElementType> = Props<
   DatepickerSlot
 > & {
   /**
+   * You can add the `Picker.id` in the end of action to specify the picker you want.
+   *
+   * For example `openTestPicker` will open the picker with `TestPicker` id.
+   *
+   * The only exception is `today` and `todayHour` since they set value for all pickers.
+   *
+   * For `open`, `close` or `toggle` the default target Picker is the first Picker in siblings.
+   * For others the default target Picker is the parent Picker.
+   * If no picker found, it will be the first Picker.
+   *
    * Action can be one of these
-   * - 'open' open the calendar
-   * - 'close' close the calendar
-   * - 'toggle' close the calendar
-   * - 'next' go to next month or year (depend on calendar mode)
-   * - 'prev' go to prev month or year (depend on calendar mode)
-   * - 'dayMonthYear' toggle calendar mode between day and month and year
-   * - 'dayMonth' toggle calendar mode between day and month
-   * - 'dayYear' toggle calendar mode between day and year
-   * - 'monthYear' toggle calendar mode between month and year
-   * - 'today' set the value to today
-   * - 'todayHour' set the value to today with current hour
+   * - `today` set the value to today
+   * - `todayHour` set the value to today with current hour
+   * - `open` or `'open' + pickerId` open the calendar
+   * - `close` or `'close' + pickerId` close the calendar
+   * - `toggle` or `'toggle' + pickerId` close the calendar
+   * - `next` or `'next' + pickerId` go to next month or year (depend on calendar mode)
+   * - `prev` or `'prev' + pickerId` go to prev month or year (depend on calendar mode)
+   * - `dayMonthYear` or `'dayMonthYear' + pickerId` toggle calendar mode between day and month and year
+   * - `dayMonth` or `'dayMonth' + pickerId` toggle calendar mode between day and month
+   * - `dayYear` or `'dayYear' + pickerId` toggle calendar mode between day and year
+   * - `monthYear` or `'monthYear' + pickerId` toggle calendar mode between month and year
    */
   action: Actions;
 };

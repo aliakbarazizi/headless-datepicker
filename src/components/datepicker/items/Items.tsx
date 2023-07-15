@@ -24,6 +24,11 @@ export type ItemsProps<
     type: Type;
   } & DatepickerSlot
 > & {
+  /**
+   * Specifiy which type of items will calculate.
+   * If it's empty you must set `defaultType` property in `Picker` component,
+   * And the value will be calculated automatically.
+   */
   type?: Type;
 
   /**
