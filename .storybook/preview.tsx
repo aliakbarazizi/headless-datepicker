@@ -67,7 +67,7 @@ const preview: Preview = {
     options: {
       storySort: {
         order: [
-          'GetStarted',
+          'Get started',
           'Datepicker',
           [
             'Provider',
