@@ -59,6 +59,11 @@ export type PickerProps<ElementTag extends ElementType> = Props<
   alwaysOpen?: boolean;
 
   /**
+   * Disable hide the picker when clicked outside
+   */
+  disableClickOutside?: boolean;
+
+  /**
    * Use css `display: none` to hide the picker instead of unmounting
    */
   hideOnClose?: boolean;
@@ -105,6 +110,7 @@ export const Picker = forwardRef(
       style,
       defaultType: _defaultType,
       defaultOpen: _defaultOpen = false,
+      disableClickOutside = false,
       id,
       ...props
     }: PickerProps<ElementTag>,
@@ -119,7 +125,7 @@ export const Picker = forwardRef(
     const { state, slot, dispatch } = useDatepickerSlot();
 
     const defaultType = useRef(_defaultType);
-    const defaultOpen = useRef(_defaultOpen);
+    const defaultOpen = useRef(alwaysOpen || _defaultOpen);
 
     useEffect(() => {
       dispatch({
@@ -159,7 +165,7 @@ export const Picker = forwardRef(
     useSyncRef(refs.floating, ref);
 
     const handleClickOutside = () => {
-      if (open && !alwaysOpen)
+      if (disableClickOutside !== true && open && !alwaysOpen)
         dispatch({ type: `close${pickerId}`, payload: { nestedLevel } });
     };
 

@@ -54,7 +54,15 @@ export const DatePicker = {
         ${storyToJsx(Next, {}, 'Button', 4)}
       </div>
       ${storyToJsx(DateItems, { type: false }, 'Items', 3)}
-      ${storyToJsx(Today, {}, 'Button', 3)}
+      ${storyToJsx(
+        Today,
+        {
+          className:
+            'mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
+        },
+        'Button',
+        3,
+      )}
     </>
   )}`,
       middleware: false,
@@ -77,7 +85,10 @@ export const DatePicker = {
           <Button {...Next.args} />
         </div>
         <Items {...DateItems.args} type={undefined} />
-        <Button {...Today.args} />
+        <Button
+          {...Today.args}
+          className="mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600"
+        />
       </>
     ),
   },
@@ -127,7 +138,15 @@ export const DateHourPicker: Story = {
         ${storyToJsx(Next, {}, 'Button', 4)}
       </div>
       ${storyToJsx(DateItems, { type: false }, 'Items', 3)}
-      ${storyToJsx(Today, {}, 'Button', 3)}
+      ${storyToJsx(
+        Today,
+        {
+          className:
+            'mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
+        },
+        'Button',
+        3,
+      )}
     </>
   )}`,
       middleware: false,
@@ -149,7 +168,10 @@ export const DateHourPicker: Story = {
           <Button {...Next.args} />
         </div>
         <Items {...DateItems.args} type={undefined} />
-        <Button {...Today.args} />
+        <Button
+          {...Today.args}
+          className="mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600"
+        />
         <Picker {...HourPicker.args} alwaysOpen={false} />
       </>
     ),

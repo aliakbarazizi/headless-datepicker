@@ -88,8 +88,10 @@ export const Items = forwardRef(
       ],
     );
 
+    console.log(disableAutoScroll !== true, picker, type);
+
     useScrollIntoItemIfNeeded(
-      disableAutoScroll === false &&
+      disableAutoScroll !== true &&
         picker !== undefined &&
         picker.isOpen &&
         ['year', 'hour', 'minute'].includes(type),

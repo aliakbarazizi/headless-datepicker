@@ -122,7 +122,7 @@ export const decorators: DecoratorFunction<any>[] = [
 
     if (parameters.showPreview === false) {
       return (
-        <div className="h-[600px] flex justify-center items-start p-4">
+        <div className="h-[560px] flex justify-center items-start p-4">
           <Story />
         </div>
       );
@@ -131,7 +131,7 @@ export const decorators: DecoratorFunction<any>[] = [
     parameters.isJalali = isJalali;
 
     return (
-      <div className="flex h-full min-h-[536px]">
+      <div className="flex h-full min-h-[560px]">
         <Datepicker
           key={isJalali ? 'jalali' : 'normal'}
           config={isJalali ? config : undefined}
@@ -140,19 +140,21 @@ export const decorators: DecoratorFunction<any>[] = [
           onChange={setVaue}
         >
           <div
-            className="overflow-y-auto relative flex justify-center items-start flex-1 m-4"
+            className="overflow-y-auto relative flex justify-center items-start flex-1 p-4"
             dir={isJalali ? 'rtl' : 'ltr'}
           >
             <Story />
           </div>
           <div
             className={classNames(
-              'bg-zinc-700 p-2 border-gray-500 flex flex-col items-center space-y-4',
-              !parameters.showDatepicker && 'self-start',
+              'p-2 border-gray-500/20 flex flex-col items-center space-y-4',
+              parameters.showDatepicker ? 'border-l' : 'self-start',
             )}
           >
             <div className="flex space-x-4">
-              <Datepicker.Input {...InputDateHour.args} />
+              {parameters.showDatepicker && (
+                <Datepicker.Input {...InputDateHour.args} />
+              )}
               <button
                 className="p-2 text-sm hover:bg-gray-700 hover:text-white ml-auto block border rounded-md border-gray-500"
                 onClick={() => setIsJalali(!isJalali)}
@@ -183,7 +185,10 @@ export const decorators: DecoratorFunction<any>[] = [
                         <Datepicker.Button {...Next.args} />
                       </div>
                       <Datepicker.Items {...DateItems.args} type={undefined} />
-                      <Datepicker.Button {...Today.args} />
+                      <Datepicker.Button
+                        {...Today.args}
+                        className="mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600"
+                      />
                       <Datepicker.Picker
                         {...HourPicker.args}
                         alwaysOpen={false}

@@ -43,12 +43,12 @@ const meta = {
       return (
         <div
           className={classNames(
-            'bg-gray-500 text-gray-200 overflow-hidden',
-            args.action === 'today'
-              ? '-mt-4'
-              : args.className?.toString().includes('rounded-full')
-              ? 'rounded-full'
-              : 'rounded-md',
+            'text-gray-200 overflow-hidden',
+            args.action !== 'toggle' && 'bg-gray-800',
+            args.action !== 'toggle' &&
+              (args.className?.toString().includes('rounded-full')
+                ? 'rounded-full'
+                : 'rounded-md'),
           )}
         >
           <Story />
@@ -73,15 +73,20 @@ export const Toggle = {
   },
   decorators: [
     (Story) => (
-      <>
-        <Story />
+      <div className="flex flex-col space-y-4 items-center">
+        <div className="bg-gray-800 rounded-md overflow-hidden">
+          <Story />
+        </div>
         <Picker
           defaultType="day"
           className="rounded-md bg-white p-4 shadow-md dark:bg-gray-800 dark:text-gray-300 w-[352px]"
+          defaultOpen
+          disableClickOutside
+          attachTo={false}
         >
           <Items {...DateItems.args} type={undefined} />
         </Picker>
-      </>
+      </div>
     ),
   ],
 } satisfies Story;
@@ -151,8 +156,7 @@ export const Next = {
 export const Today = {
   args: {
     action: 'today',
-    className:
-      'mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
+    className: 'w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
     children: 'Today',
   },
 } satisfies Story;
