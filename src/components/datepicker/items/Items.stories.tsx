@@ -80,7 +80,8 @@ export const DateItems = {
         key={item.key}
         item={item}
         className={classNames(
-          'grid items-center justify-center rounded-full py-1.5 text-sm font-medium hover:bg-gray-700',
+          'grid items-center justify-center rounded-full py-1.5 text-sm font-medium select-none',
+          item.isHeader ? 'cursor-default' : 'hover:bg-gray-700',
           item.disabled ? 'text-gray-500' : 'hover:text-white',
           item.type === 'day' && 'h-8 w-8',
           item.isSelected && 'bg-gray-600',
@@ -114,7 +115,8 @@ export const DateItems = {
           key={item.key}
           item={item}
           className={classNames(
-            'flex items-center justify-center rounded-full py-1.5 text-sm font-medium hover:bg-gray-700',
+            'flex items-center justify-center rounded-full py-1.5 text-sm font-medium select-none',
+            item.isHeader ? 'cursor-default' : 'hover:bg-gray-700',
             item.disabled ? 'text-gray-500' : 'hover:text-white',
             item.type === 'day' && 'h-8 w-8',
             item.isSelected && 'bg-gray-600',
@@ -155,6 +157,7 @@ export const HourItems = {
   args: {
     type: 'hour',
     className: 'overflow-y-auto scroll-smooth px-4',
+    disableAutoScroll: true,
     children: ({ items }) =>
       items.map((item) => (
         <Item

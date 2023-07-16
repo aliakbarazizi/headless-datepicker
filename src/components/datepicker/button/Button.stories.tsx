@@ -68,7 +68,7 @@ export const Toggle = {
   args: {
     action: 'toggle',
     className:
-      'leading-2 p-2 text-lg font-semibold hover:bg-gray-700 hover:text-white',
+      'leading-2 p-2 text-lg font-semibold hover:bg-gray-700 hover:text-white flex items-center space-x-2',
     children: 'Toggle picker state',
   },
   decorators: [

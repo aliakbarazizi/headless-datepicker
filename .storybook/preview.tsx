@@ -148,7 +148,9 @@ export const decorators: DecoratorFunction<any>[] = [
           <div
             className={classNames(
               'p-2 border-gray-500/20 flex flex-col items-center space-y-4',
-              parameters.showDatepicker ? 'border-l' : 'self-start',
+              parameters.showDatepicker
+                ? 'border-l'
+                : 'self-start absolute top-0 right-0',
             )}
           >
             <div className="flex space-x-4">
@@ -156,7 +158,9 @@ export const decorators: DecoratorFunction<any>[] = [
                 <Datepicker.Input {...InputDateHour.args} />
               )}
               <button
-                className="p-2 text-sm hover:bg-gray-700 hover:text-white ml-auto block border rounded-md border-gray-500"
+                className={classNames(
+                  'p-2 text-sm hover:bg-gray-700 hover:text-white ml-auto block border rounded-md border-gray-500',
+                )}
                 onClick={() => setIsJalali(!isJalali)}
               >
                 Toggle jalali
