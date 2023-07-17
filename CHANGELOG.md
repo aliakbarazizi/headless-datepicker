@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.0...v1.1.1) (2023-07-17)
+
+
+### Bug Fixes
+
+* fix bug sometimes scroll to selected item don't work ([8b9e21c](https://github.com/aliakbarazizi/headless-datepicker/commit/8b9e21c062d7c0cc8bf3eb073844b26a0dd84fa5))
+
 ## [1.1.0](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.0.5...v1.1.0) (2023-07-15)
 
 
