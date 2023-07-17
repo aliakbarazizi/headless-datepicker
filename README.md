@@ -3,6 +3,10 @@
 [![npm version](https://badge.fury.io/js/@aliakbarazizi%2Fheadless-datepicker.svg)](https://badge.fury.io/js/@aliakbarazizi%2Fheadless-datepicker)
 [![npm](https://img.shields.io/npm/dm/%40aliakbarazizi/headless-datepicker)](https://www.npmjs.com/package/@aliakbarazizi/headless-datepicker)
 
+<p align="center">
+  <img src='https://github.com/aliakbarazizi/headless-datepicker/raw/main/media/screenshot.png' width="700"/>
+</p>
+
 The Headless Datepicker is a powerful and flexible tool designed for ReactJS applications.
 It allows developers to create customizable and visually appealing datepickers with ease.
 Unlike traditional datepickers, this component is "headless," meaning it provides the core functionality

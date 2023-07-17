@@ -4,7 +4,7 @@ import * as ProviderStories from './components/datepicker/provider/Provider.stor
 
 <Meta title="Get started" />
 
-<Markdown>{ReadMe.match(/#[^#]*/)[0]}</Markdown>
+<Markdown>{ReadMe.match(/#[^#]*/)[0].replace(/<p .*?<\/p>/s, '', '')}</Markdown>
 
 <Canvas of={ProviderStories.DatePicker} meta={ProviderStories} />
 
