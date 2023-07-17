@@ -93,7 +93,7 @@ export const Items = forwardRef(
     useScrollIntoItemIfNeeded(
       disableAutoScroll !== true &&
         picker !== undefined &&
-        picker.isOpen &&
+        (picker.alwaysOpen === true || picker.isOpen) &&
         ['year', 'hour', 'minute'].includes(type),
       type,
       type !== 'day' ? state[type] : undefined,

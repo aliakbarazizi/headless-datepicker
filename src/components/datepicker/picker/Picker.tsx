@@ -125,7 +125,7 @@ export const Picker = forwardRef(
     const { state, slot, dispatch } = useDatepickerSlot();
 
     const defaultType = useRef(_defaultType);
-    const defaultOpen = useRef(alwaysOpen || _defaultOpen);
+    const defaultOpen = useRef(_defaultOpen);
 
     useEffect(() => {
       dispatch({
@@ -135,10 +135,11 @@ export const Picker = forwardRef(
           nestedLevel: nestedLevel + 1,
           defaultType: defaultType.current,
           defaultOpen: defaultOpen.current,
+          alwaysOpen,
         },
       });
       return () => dispatch({ type: 'unregisterPicker', payload: pickerId });
-    }, [dispatch, pickerId, nestedLevel]);
+    }, [dispatch, pickerId, nestedLevel, alwaysOpen]);
 
     const pickerState = state.pickers[pickerId];
 

@@ -204,6 +204,7 @@ export type DatepickerContextActions =
         nestedLevel: number;
         defaultType?: ItemType['type'];
         defaultOpen: boolean;
+        alwaysOpen?: boolean;
       };
     }
   | {
@@ -217,6 +218,7 @@ export type DatepickerSlot = {
       nestedLevel: number;
       attach: MutableRefObject<HTMLElement | null> | undefined;
       isOpen: boolean;
+      alwaysOpen?: boolean;
       type?: ItemType['type'];
       defaultType?: ItemType['type'];
     };
@@ -430,6 +432,7 @@ export const datePickerReducer = (
             type: payload.defaultType,
             attach: undefined,
             isOpen: payload.defaultOpen,
+            alwaysOpen: payload.alwaysOpen,
           },
         },
       };
