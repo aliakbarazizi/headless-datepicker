@@ -47,7 +47,7 @@
     "build:dist": "vite build",
     "build:storybook": "storybook build --docs && node ./.storybook/fix-title.js 'React headless datepicker' ../",
     "preview": "vite preview",
-    "postinstall": "husky install"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.0.1",
