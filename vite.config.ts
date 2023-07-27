@@ -1,9 +1,9 @@
+import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import react from '@vitejs/plugin-react';
 import pkg from './package.json';
 
 const dateFnsDirs = fs

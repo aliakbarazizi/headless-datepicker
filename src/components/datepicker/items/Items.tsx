@@ -15,35 +15,38 @@ const DEFAULT_TAG = 'div';
 type ItemsType = DateItemType | HourItemType;
 
 export type ItemsProps<
-  ElementTag extends ElementType,
   Type extends ItemsType['type'],
+  ElemenElementTag extends ElementType = typeof DEFAULT_TAG,
 > = Props<
-  ElementTag,
+  ElemenElementTag,
   {
     items: Extract<ItemsType, { type: Type }>[];
     type: Type;
-  } & DatepickerSlot
-> & {
-  /**
-   * Specifiy which type of items will calculate.
-   * If it's empty you must set `defaultType` property in `Picker` component,
-   * And the value will be calculated automatically.
-   */
-  type?: Type;
+  } & DatepickerSlot,
+  never,
+  {
+    /**
+     * Specifiy which type of items will calculate.
+     * If it's empty you must set `defaultType` property in `Picker` component,
+     * And the value will be calculated automatically.
+     */
+    type?: Type;
 
-  /**
-   * Scroll to selected item when mounted
-   * this is only for year, minute and hour
-   */
-  disableAutoScroll?: boolean;
-};
+    /**
+     * Scroll to selected item when mounted
+     * this is only for year, minute and hour
+     */
+    disableAutoScroll?: boolean;
+  }
+>;
 
 export const Items = forwardRef(
-  <
-    Type extends ItemsType['type'],
-    ElementTag extends ElementType = typeof DEFAULT_TAG,
-  >(
-    { type: _type, disableAutoScroll, ...props }: ItemsProps<ElementTag, Type>,
+  <Type extends ItemsType['type'], ElemenElementTag extends ElementType>(
+    {
+      type: _type,
+      disableAutoScroll,
+      ...props
+    }: ItemsProps<Type, ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
     const { id, defaultType } = useContext(PickerContext);
@@ -51,7 +54,8 @@ export const Items = forwardRef(
 
     const picker = id ? state.pickers[id] : undefined;
 
-    const type = _type || picker?.type || defaultType;
+    const type: ItemsType['type'] | undefined =
+      _type || picker?.type || defaultType;
 
     if (type === undefined) {
       throw new Error(
@@ -88,8 +92,6 @@ export const Items = forwardRef(
       ],
     );
 
-    console.log(disableAutoScroll !== true, picker, type);
-
     useScrollIntoItemIfNeeded(
       disableAutoScroll !== true &&
         picker !== undefined &&
@@ -114,3 +116,12 @@ export const Items = forwardRef(
     );
   },
 );
+
+export interface ComponentItems {
+  <
+    Type extends ItemsType['type'],
+    ElementTag extends ElementType = typeof DEFAULT_TAG,
+  >(
+    props: ItemsProps<Type, ElementTag> & React.RefAttributes<ElementType>,
+  ): JSX.Element;
+}

@@ -3,6 +3,7 @@ import {
   ElementType,
   Fragment,
   Ref,
+  forwardRef,
   useEffect,
   useReducer,
   useRef,
@@ -18,58 +19,61 @@ import { useDisposables } from '../../../hooks/useDisposables';
 import { useEvent } from '../../../hooks/useEvent';
 import { Props } from '../../../type';
 import { config as defaultConfig } from '../../../utils/config';
-import { forwardRef, render } from '../../../utils/render';
+import { render } from '../../../utils/render';
 
 const DEFAULT_TAG = Fragment;
 
-export type ProviderProps<ElementTag extends ElementType> = Props<
-  ElementTag,
+export type ProviderProps<
+  ElemenElementTag extends ElementType = typeof DEFAULT_TAG,
+> = Props<
+  ElemenElementTag,
   DatepickerState,
-  'onChange' | 'defaultValue' | 'value'
-> & {
-  /**
-   * Default value of the date
-   */
-  defaultValue?: Date;
+  'onChange' | 'defaultValue' | 'value',
+  {
+    /**
+     * Default value of the date
+     */
+    defaultValue?: Date;
 
-  /**
-   * Value of date picker
-   */
-  value?: Date | null;
+    /**
+     * Value of date picker
+     */
+    value?: Date | null;
 
-  /**
-   * On value change
-   * @param value The new date value
-   * @returns void
-   */
-  onChange?: (value: Date | null) => void;
+    /**
+     * On value change
+     * @param value The new date value
+     * @returns void
+     */
+    onChange?: (value: Date | null) => void;
 
-  /**
-   * Disable keyboard navigation
-   */
-  disabledKeyboardNavigation?: boolean;
+    /**
+     * Disable keyboard navigation
+     */
+    disabledKeyboardNavigation?: boolean;
 
-  /**
-   * Disable calendar (it will disabled Input too)
-   */
-  disabled?: boolean;
+    /**
+     * Disable calendar (it will disabled Input too)
+     */
+    disabled?: boolean;
 
-  /**
-   * Override calendar config
-   *
-   * @see DatepickerConfig
-   */
-  config?: DatepickerConfig;
+    /**
+     * Override calendar config
+     *
+     * @see DatepickerConfig
+     */
+    config?: DatepickerConfig;
 
-  /**
-   * 0 for Sunday
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay#return_value
-   */
-  startOfWeek?: number;
-};
+    /**
+     * 0 for Sunday
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay#return_value
+     */
+    startOfWeek?: number;
+  }
+>;
 
 export const Provider = forwardRef(
-  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
+  <ElemenElementTag extends ElementType>(
     {
       defaultValue,
       value,
@@ -80,7 +84,7 @@ export const Provider = forwardRef(
       config = defaultConfig,
       startOfWeek = 0,
       ...props
-    }: ProviderProps<ElementTag>,
+    }: ProviderProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
     const valueRef = useRef<Date | null>(value || defaultValue || null);
@@ -184,4 +188,10 @@ function isEqual(first: Date | null, second: Date | null) {
     first === second ||
     (first !== null && second !== null && isEqualDate(first, second))
   );
+}
+
+export interface ComponentProvider {
+  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
+    props: ProviderProps<ElementTag> & React.RefAttributes<ElementType>,
+  ): JSX.Element;
 }

@@ -120,7 +120,7 @@ export const HourPicker = {
 export const DateHourPicker: Story = {
   parameters: {
     override: {
-      children: `{({ monthName, year }) => (
+      children: `{({ monthName, hour, minute, year }) => (
     <>
       <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
         ${storyToJsx(Prev, {}, 'Button', 4)}
@@ -207,7 +207,7 @@ export const Calendar: Story = {
         Today,
         {
           className:
-            'mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
+            '"mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600"',
         },
         'Button',
         3,

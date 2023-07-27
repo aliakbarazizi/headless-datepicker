@@ -13,15 +13,18 @@ const DEFAULT_TAG = 'button';
 
 export const itemDataAttribute = 'data-calendar-item-id' as const;
 
-export type ItemProps<ElementTag extends ElementType> = Props<
-  ElementTag,
+export type ItemProps<
+  ElemenElementTag extends ElementType = typeof DEFAULT_TAG,
+> = Props<
+  ElemenElementTag,
   DatepickerSlot,
-  typeof itemDataAttribute
-> & { item: DateItemType | HourItemType };
+  typeof itemDataAttribute,
+  { item: DateItemType | HourItemType }
+>;
 
 export const Item = forwardRef(
-  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
-    { item, ...props }: ItemProps<ElementTag>,
+  <ElemenElementTag extends ElementType>(
+    { item, ...props }: ItemProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
     const { id } = useContext(PickerContext);
@@ -44,3 +47,9 @@ export const Item = forwardRef(
     return render(ourProps, props, slot, DEFAULT_TAG, ref);
   },
 );
+
+export interface ComponentItem {
+  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
+    props: ItemProps<ElementTag> & React.RefAttributes<ElementType>,
+  ): JSX.Element;
+}

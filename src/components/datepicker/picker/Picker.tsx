@@ -34,65 +34,69 @@ const defaultMiddleware = [
   shift(),
 ];
 
-export type PickerProps<ElementTag extends ElementType> = Props<
-  ElementTag,
-  DatepickerSlot
-> & {
-  /**
-   * Set a unique id for the picker
-   * It can be useful when you have multiple pickers
-   * and you want to use `<Button />`
-   * @see `Button.action` for more information
-   */
-  id?: string;
+export type PickerProps<
+  ElemenElementTag extends ElementType = typeof DEFAULT_TAG,
+> = Props<
+  ElemenElementTag,
+  DatepickerSlot,
+  never,
+  {
+    /**
+     * Set a unique id for the picker
+     * It can be useful when you have multiple pickers
+     * and you want to use `<Button />`
+     * @see `Button.action` for more information
+     */
+    id?: string;
 
-  /**
-   * Set whether or not the picker should be opened by default
-   * You may need to set the `attachTo` property to attach the picker to the element
-   */
-  defaultOpen?: boolean;
+    /**
+     * Set whether or not the picker should be opened by default
+     * You may need to set the `attachTo` property to attach the picker to the element
+     */
+    defaultOpen?: boolean;
 
-  /**
-   * Ignore the internal state and show the always show the picker
-   * You may need to set the `attachTo` property to attach the picker to the element
-   */
-  alwaysOpen?: boolean;
+    /**
+     * Ignore the internal state and show the always show the picker
+     * You may need to set the `attachTo` property to attach the picker to the element
+     */
+    alwaysOpen?: boolean;
 
-  /**
-   * Disable hide the picker when clicked outside
-   */
-  disableClickOutside?: boolean;
+    /**
+     * Disable hide the picker when clicked outside
+     */
+    disableClickOutside?: boolean;
 
-  /**
-   * Use css `display: none` to hide the picker instead of unmounting
-   */
-  hideOnClose?: boolean;
+    /**
+     * Use css `display: none` to hide the picker instead of unmounting
+     */
+    hideOnClose?: boolean;
 
-  /**
-   * Set the default value for `<Items />`
-   * You must either set the default value or set the type in the `Items` component
-   */
-  defaultType?: ItemType['type'];
+    /**
+     * Set the default value for `<Items />`
+     * You must either set the default value or set the type in the `Items` component
+     */
+    defaultType?: ItemType['type'];
 
-  /**
-   * The element that picker position will be calculated based on the that
-   *
-   * Default is the element that made picker open
-   * `<Datepicker.Input />` or `<Datepicker.Button />`
-   */
-  attachTo?: React.RefObject<HTMLElement> | false;
+    /**
+     * The element that picker position will be calculated based on the that
+     *
+     * Default is the element that made picker open
+     * `<Datepicker.Input />` or `<Datepicker.Button />`
+     */
+    attachTo?: React.RefObject<HTMLElement> | false;
 
-  /**
-   * Override the default floating-ui middlewares
-   *
-   * Only works if attachTo is not `false`.
-   *
-   * Read more at <a href="https://floating-ui.com/docs/middleware" target="_blank">Floating UI</a>
-   *
-   * @see https://floating-ui.com/docs/middleware
-   */
-  middleware?: UseFloatingOptions['middleware'];
-};
+    /**
+     * Override the default floating-ui middlewares
+     *
+     * Only works if attachTo is not `false`.
+     *
+     * Read more at <a href="https://floating-ui.com/docs/middleware" target="_blank">Floating UI</a>
+     *
+     * @see https://floating-ui.com/docs/middleware
+     */
+    middleware?: UseFloatingOptions['middleware'];
+  }
+>;
 
 export const PickerContext = createContext<{
   nestedLevel: number;
@@ -101,7 +105,7 @@ export const PickerContext = createContext<{
 }>({ nestedLevel: 0 });
 
 export const Picker = forwardRef(
-  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
+  <ElemenElementTag extends ElementType>(
     {
       alwaysOpen,
       hideOnClose,
@@ -113,7 +117,7 @@ export const Picker = forwardRef(
       disableClickOutside = false,
       id,
       ...props
-    }: PickerProps<ElementTag>,
+    }: PickerProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
     const { nestedLevel } = useContext(PickerContext);
@@ -198,3 +202,9 @@ export const Picker = forwardRef(
     );
   },
 );
+
+export interface ComponentPicker {
+  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
+    props: PickerProps<ElementTag> & React.RefAttributes<ElementType>,
+  ): JSX.Element;
+}

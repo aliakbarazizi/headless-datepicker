@@ -15,9 +15,9 @@ import { classNames } from './class-names';
 
 export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
 
-export function render<TTag extends ElementType, TSlot>(
-  ourProps: Expand<Props<TTag, TSlot>>,
-  theirProps: Expand<Props<TTag, TSlot>>,
+export function render<ElementTag extends ElementType, TSlot>(
+  ourProps: Expand<Props<ElementTag, TSlot>>,
+  theirProps: Expand<Props<ElementTag, TSlot>>,
   slot: TSlot = {} as TSlot,
   tag: ElementType,
   ref: Ref<unknown>,

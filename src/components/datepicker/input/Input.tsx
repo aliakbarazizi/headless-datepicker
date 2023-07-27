@@ -19,39 +19,48 @@ import { PickerContext } from '../picker/Picker';
 
 const DEFAULT_TAG = 'input';
 
-export type InputProps<ElementTag extends ElementType> = Props<
-  ElementTag,
-  DatepickerSlot
-> & {
-  /**
-   * The string of tokens that used to format date
-   *
-   * You can pass function for custom formatting functions
-   *
-   * The default value is "yyyy/MM/dd"
-   *
-   * @see https://date-fns.org/docs/format
-   * @param date current value
-   * @returns string the value to show in input
-   */
-  format?: string | ((date: Date | null) => string);
+export type InputProps<
+  ElemenElementTag extends ElementType = typeof DEFAULT_TAG,
+> = Props<
+  ElemenElementTag,
+  DatepickerSlot,
+  never,
+  {
+    /**
+     * The string of tokens that used to format date
+     *
+     * You can pass function for custom formatting functions
+     *
+     * The default value is "yyyy/MM/dd"
+     *
+     * @see https://date-fns.org/docs/format
+     * @param date current value
+     * @returns string the value to show in input
+     */
+    format?: string | ((date: Date | null) => string);
 
-  /**
-   * Parse the value of input when changed to Date
-   * It will be ignored if the format value is not function.
-   *
-   * If you don't provide this and format value is function the input will be readonly
-   *
-   * @param date
-   * @param currentDate the current value of the Date it usefull to use it for reference in parse
-   * @returns
-   */
-  parse?: (date: string, currentDate: Date | null) => Date;
-};
+    /**
+     * Parse the value of input when changed to Date
+     * It will be ignored if the format value is not function.
+     *
+     * If you don't provide this and format value is function the input will be readonly
+     *
+     * @param date
+     * @param currentDate the current value of the Date it usefull to use it for reference in parse
+     * @returns
+     */
+    parse?: (date: string, currentDate: Date | null) => Date;
+  }
+>;
 
 export const Input = forwardRef(
-  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
-    { format = 'yyyy/MM/dd', parse, type, ...props }: InputProps<ElementTag>,
+  <ElemenElementTag extends ElementType>(
+    {
+      format = 'yyyy/MM/dd',
+      parse,
+      type,
+      ...props
+    }: InputProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
     const { nestedLevel } = useContext(PickerContext);
@@ -127,3 +136,9 @@ export const Input = forwardRef(
     return render(ourProps, props, slot, DEFAULT_TAG, inputRef);
   },
 );
+
+export interface ComponentInput {
+  <ElementTag extends ElementType = typeof DEFAULT_TAG>(
+    props: InputProps<ElementTag> & React.RefAttributes<ElementType>,
+  ): JSX.Element;
+}
