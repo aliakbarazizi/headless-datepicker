@@ -60,7 +60,7 @@ export const DatePicker = {
         Today,
         {
           className:
-            'mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
+            '"mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600"',
         },
         'Button',
         3,
@@ -144,7 +144,7 @@ export const DateHourPicker: Story = {
         Today,
         {
           className:
-            'mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600',
+            '"mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600"',
         },
         'Button',
         3,
