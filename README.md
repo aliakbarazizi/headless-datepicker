@@ -108,6 +108,8 @@ Use the config prop to pass your configuration to the Datepicker component.
 <Datepicker config={config}>...</Datepicker>
 ```
 
+**The configuration object should remain unchanged during React re-renders to maintain consistent behavior, and it's recommended to declare it outside the component to avoid unnecessary re-creations.**
+
 ## Documentation
 
 Please see the [https://aliakbarazizi.github.io/headless-datepicker/](https://aliakbarazizi.github.io/headless-datepicker/)
