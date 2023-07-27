@@ -82,6 +82,29 @@ import Datepicker from '@aliakbarazizi/headless-datepicker';
 </Datepicker>
 ```
 
+## Using other calendar types (e.g., Jalali) with Headless Datepicker
+
+The Headless Datepicker library provides the flexibility to support various calendar types, allowing you to tailor the datepicker based on your specific regional requirements. To use a custom calendar type or the built-in Jalali calendar, follow these simple steps:
+
+### Configuration Object
+
+Manually create a configuration object for your desired calendar type or use the internal Jalali configuration provided by the library.
+
+- For the Jalali calendar:
+  ```js
+  import { config } from '@aliakbarazizi/headless-datepicker/jalali';
+  ```
+- For custom calendar:
+  create a config object base on [config](https://github.com/aliakbarazizi/headless-datepicker/blob/main/src/utils/config.ts)
+
+### Pass Configuration to Datepicker
+
+Use the config prop to pass your configuration to the Datepicker component.
+
+```jsx
+<Datepicker config={config}>...</Datepicker>
+```
+
 ## Documentation
 
 Please see the [https://aliakbarazizi.github.io/headless-datepicker/](https://aliakbarazizi.github.io/headless-datepicker/)
