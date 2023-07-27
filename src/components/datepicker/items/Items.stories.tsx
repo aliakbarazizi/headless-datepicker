@@ -68,7 +68,7 @@ export const DateItems = {
     override: {
       className: `{({ type }) =>
     classNames(
-      'flex auto-rows-max gap-4 overflow-y-auto scroll-smooth',
+      'grid w-full auto-rows-max gap-4 overflow-y-auto scroll-smooth',
       type == 'day' && 'grid-cols-7',
       type == 'month' && 'grid-cols-3',
       type == 'year' && 'max-h-[274px] grid-cols-4',

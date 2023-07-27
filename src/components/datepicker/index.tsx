@@ -4,6 +4,7 @@ import { ComponentItem, Item, ItemProps } from './item/Item';
 import { ComponentItems, Items, ItemsProps } from './items/Items';
 import { ComponentPicker, Picker, PickerProps } from './picker/Picker';
 import {
+  ComponentProvider,
   ProviderProps as DatepickerProps,
   Provider,
 } from './provider/Provider';
@@ -19,7 +20,7 @@ export type {
 
 export type * from '../../context/context';
 
-const Datepicker = Object.assign(Provider, {
+const Datepicker = Object.assign(Provider as ComponentProvider, {
   Picker: Picker as ComponentPicker,
   Input: Input as ComponentInput,
   Button: Button as ComponentButton,
