@@ -54,7 +54,7 @@ yarn add @aliakbarazizi/headless-datepicker
 Import Datepicker component
 
 ```js
-import Datepicker from '@aliakbarazizi/headless-datepicker';
+import { Datepicker } from '@aliakbarazizi/headless-datepicker';
 ```
 
 ## Basic example
