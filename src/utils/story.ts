@@ -1,8 +1,8 @@
 const printWidth = 80;
 
 export function addProvider(code: string) {
-  return `const [value, setVaue] = useState<Date | null>(new Date());
-<Datepicker value={value} onChange={setVaue}>
+  return `const [value, setValue] = useState<Date | null>(new Date());
+<Datepicker value={value} onChange={setValue}>
   ${code.replace(/\n^/gm, '\n  ')}
 </Datepicker>`;
 }
@@ -59,12 +59,16 @@ export function storyToJsx(
     (args.length - (isRoot ? 1 : 0)) * 2 +
     `<Datepicker.${displayName}>`.length;
 
-  const argDelimiter = lineWidth >= printWidth ? '\n  ' + space : ' ';
+  const shouldAddBreakLine =
+    lineWidth >= printWidth &&
+    (args.length > 1 || !args[0].match(/^\w+="[^"]*"$/));
+
+  const argDelimiter = shouldAddBreakLine ? '\n  ' + space : ' ';
 
   let arg = argDelimiter + args.join(argDelimiter);
 
   if (typeof children === 'string') {
-    arg += lineWidth > printWidth ? '\n' + space : '';
+    arg += shouldAddBreakLine ? '\n' + space : '';
     return replaceChildren(
       `<${displayName}${arg}/>`,
       children,
@@ -72,7 +76,7 @@ export function storyToJsx(
       intent,
     );
   } else {
-    arg += lineWidth > printWidth ? '\n' + space : ' ';
+    arg += shouldAddBreakLine ? '\n' + space : ' ';
     return `<Datepicker.${displayName}${arg}/>`;
   }
 }
