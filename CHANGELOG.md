@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.1...v1.1.2) (2023-07-26)
+
+
+### Bug Fixes
+
+* remove husky to prepare script ([89b2a46](https://github.com/aliakbarazizi/headless-datepicker/commit/89b2a46aa3bed706c79f99dfe72c21b292181a6a))
+
 ## [1.1.1](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.0...v1.1.1) (2023-07-17)
 
 
