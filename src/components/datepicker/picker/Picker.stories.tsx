@@ -105,7 +105,6 @@ export const HourPicker = {
     },
   },
   args: {
-    ...DatePicker.args,
     className:
       'flex max-h-56 rounded-md border border-gray-600 bg-white py-2 shadow-md rtl:flex-row-reverse dark:bg-gray-800 dark:text-gray-300',
     children: (
@@ -149,6 +148,7 @@ export const DateHourPicker: Story = {
         'Button',
         3,
       )}
+      ${storyToJsx(HourPicker, {}, 'Picker', 3)}
     </>
   )}`,
       middleware: false,

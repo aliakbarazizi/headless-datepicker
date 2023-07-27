@@ -2,7 +2,6 @@ const printWidth = 80;
 
 export function addProvider(code: string) {
   return `const [value, setVaue] = useState<Date | null>(new Date());
-const [rerender, setRerender] = useState<number>(0);
 <Datepicker value={value} onChange={setVaue}>
   ${code.replace(/\n^/gm, '\n  ')}
 </Datepicker>`;
@@ -32,6 +31,8 @@ export function storyToJsx(
       key in override ||
       key === 'children'
         ? value
+        : typeof value === 'boolean' || typeof value === 'number'
+        ? `{${value}}`
         : `"${value}"`;
 
     if (typeof v === 'string') {
@@ -47,7 +48,7 @@ export function storyToJsx(
       return;
     }
 
-    args.push(`${key}=${v}`);
+    args.push(v === '{true}' ? `${key}` : `${key}=${v}`);
   });
 
   const isRoot = displayName === 'Datepicker';

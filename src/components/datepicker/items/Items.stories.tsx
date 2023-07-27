@@ -134,7 +134,7 @@ export const HourItems = {
     override: {
       children: `{({ items }) =>
     items.map((item) => (
-      <Item
+      <Datepicker.Item
         key={item.key}
         item={item}
         className={classNames(
@@ -143,7 +143,7 @@ export const HourItems = {
         )}
       >
         {('0' + item.text).slice(-2)}
-      </Item>
+      </Datepicker.Item>
     ))
   }`,
     },
