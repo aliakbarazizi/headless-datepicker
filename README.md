@@ -91,10 +91,13 @@ The Headless Datepicker library provides the flexibility to support various cale
 Manually create a configuration object for your desired calendar type or use the internal Jalali configuration provided by the library.
 
 - For the Jalali calendar:
+
   ```js
   import { config } from '@aliakbarazizi/headless-datepicker/jalali';
   ```
+
 - For custom calendar:
+
   create a config object base on [config](https://github.com/aliakbarazizi/headless-datepicker/blob/main/src/utils/config.ts)
 
 ### Pass Configuration to Datepicker
