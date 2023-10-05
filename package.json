@@ -19,7 +19,7 @@
   "files": [
     "dist"
   ],
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "./dist/headless-datepicker.js",
   "module": "./dist/headless-datepicker.mjs",
   "types": "./dist/headless-datepicker.d.ts",
