@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.5](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.4...v1.1.5) (2023-08-03)
+
+
+### Bug Fixes
+
+* change types in package.json ([03a9a85](https://github.com/aliakbarazizi/headless-datepicker/commit/03a9a850a17924f5f9c2e2dbeb87f94e4fe97f76))
+
 ## [1.1.4](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.3...v1.1.4) (2023-07-27)
 
 
