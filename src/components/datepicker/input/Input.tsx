@@ -43,7 +43,7 @@ export type InputProps<
      * Parse the value of input when changed to Date
      * It will be ignored if the format value is not function.
      *
-     * If you don't provide this and format value is function the input will be readonly
+     * If you don't provide this and format value is a function the input will be readonly
      *
      * @param date
      * @param currentDate the current value of the Date it usefull to use it for reference in parse
@@ -117,7 +117,7 @@ export const Input = forwardRef(
         state.onChange(parseValue);
       }
 
-      setDirtyInputValue(undefined);
+      disposables.nextFrame(() => setDirtyInputValue(undefined));
     });
 
     const readOnly =

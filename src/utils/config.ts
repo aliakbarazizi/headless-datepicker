@@ -42,26 +42,6 @@ export const config: DatepickerConfig = {
   format: (date, format) => (date ? dateFromat(date, format) : ''),
   parse: (date, format, referenceDate) => {
     const parseDate = parse(date, format, referenceDate || new Date());
-    /**
-     * Since date-fns is not always use referenceDate as reference
-     * We need to make sure the of that.
-     *
-     *
-     * 'Parse use reference date only in rare cases we need to make sure it work'
-     * @see https://github.com/date-fns/date-fns/issues/1838#issuecomment-696674141
-     */
-    if (referenceDate) {
-      parseDate.setUTCSeconds(
-        referenceDate.getUTCSeconds(),
-        referenceDate.getMilliseconds(),
-      );
-      if (!format.match(/H|h|K|k/)) {
-        parseDate.setUTCHours(referenceDate.getUTCHours());
-      }
-      if (!format.match(/m/)) {
-        parseDate.setUTCMinutes(referenceDate.getUTCMinutes());
-      }
-    }
 
     return parseDate;
   },
