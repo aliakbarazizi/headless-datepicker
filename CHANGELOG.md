@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.6](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.5...v1.1.6) (2023-10-05)
+
+
+### Bug Fixes
+
+* set hour to 0 when its not exists ([f7d6ea9](https://github.com/aliakbarazizi/headless-datepicker/commit/f7d6ea99a86b224a2ec5c68a359578e4cfba6fb9))
+
 ## [1.1.5](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.4...v1.1.5) (2023-08-03)
 
 
