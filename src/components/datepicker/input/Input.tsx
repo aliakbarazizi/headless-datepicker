@@ -4,7 +4,6 @@ import {
   InputHTMLAttributes,
   Ref,
   useCallback,
-  useContext,
   useMemo,
   useRef,
   useState,
@@ -15,7 +14,6 @@ import { useEvent } from '../../../hooks/useEvent';
 import { useSyncRef } from '../../../hooks/useSyncRef';
 import { Props } from '../../../type';
 import { forwardRef, render } from '../../../utils/render';
-import { PickerContext } from '../picker/Picker';
 
 const DEFAULT_TAG = 'input';
 
@@ -63,8 +61,6 @@ export const Input = forwardRef(
     }: InputProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
-    const { nestedLevel } = useContext(PickerContext);
-
     const inputRef = useRef<HTMLButtonElement | null>(null);
     useSyncRef(inputRef, ref);
 
@@ -92,8 +88,8 @@ export const Input = forwardRef(
     const onFocus = useEvent(() =>
       disposables.nextFrame(() =>
         dispatch({
-          type: 'open',
-          payload: { ref: inputRef, nestedLevel },
+          type: 'action',
+          payload: { action: 'open', ref: inputRef },
         }),
       ),
     );

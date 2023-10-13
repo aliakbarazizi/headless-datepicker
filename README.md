@@ -70,7 +70,7 @@ import { Datepicker } from '@aliakbarazizi/headless-datepicker';
         <Datepicker.Items>
           {({ items }) =>
             items.map((item) => (
-              <Datepicker.Item key={item.key} item={item}>
+              <Datepicker.Item key={item.key} item={item} action="close">
                 {item.text}
               </Datepicker.Item>
             ))

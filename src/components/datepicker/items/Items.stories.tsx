@@ -87,6 +87,13 @@ export const DateItems = {
           item.isSelected && 'bg-gray-600',
           item.isToday && 'border border-gray-500',
         )}
+        action={
+          item.type === 'day'
+            ? 'close'
+            : item.type === 'month'
+            ? 'showDay'
+            : 'showMonth'
+        }
       >
         {item.isHeader ? item.text.substring(0, 2) : item.text}
       </Datepicker.Item>
@@ -122,6 +129,13 @@ export const DateItems = {
             item.isSelected && 'bg-gray-600',
             item.isToday && 'border border-gray-500',
           )}
+          action={
+            item.type === 'day'
+              ? 'close'
+              : item.type === 'month'
+              ? 'showDay'
+              : 'showMonth'
+          }
         >
           {item.isHeader ? item.text.substring(0, 2) : item.text}
         </Item>
@@ -137,6 +151,7 @@ export const HourItems = {
       <Datepicker.Item
         key={item.key}
         item={item}
+        action="close"
         className={classNames(
           'flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium hover:bg-gray-700 hover:text-white',
           item.isSelected && 'bg-gray-600',
@@ -167,6 +182,7 @@ export const HourItems = {
             'flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium hover:bg-gray-700 hover:text-white',
             item.isSelected && 'bg-gray-600',
           )}
+          action="close"
         >
           {('0' + item.text).slice(-2)}
         </Item>

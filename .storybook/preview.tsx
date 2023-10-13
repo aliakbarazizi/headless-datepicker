@@ -13,8 +13,8 @@ import type { DecoratorFunction } from '@storybook/types';
 import { useEffect, useState } from 'react';
 import { Datepicker } from '../src/components/datepicker';
 import {
-  DayMonth,
-  DayYear,
+  ToggleMonth,
+  ToggleYear,
   Next,
   Prev,
   Today,
@@ -30,6 +30,7 @@ import { config } from '../src/jalali/config';
 import { classNames } from '../src/utils/class-names';
 import { addProvider, storyToJsx } from '../src/utils/story';
 import '../src/style.css';
+import React from 'react';
 
 const preview: Preview = {
   parameters: {
@@ -155,7 +156,7 @@ export const decorators: DecoratorFunction<any>[] = [
           >
             <div className="flex space-x-4">
               {parameters.showDatepicker && (
-                <Datepicker.Input {...InputDateHour.args} />
+                <Datepicker.Input {...(InputDateHour.args as any)} />
               )}
               <button
                 className={classNames(
@@ -168,7 +169,7 @@ export const decorators: DecoratorFunction<any>[] = [
             </div>
             {parameters.showDatepicker && (
               <>
-                <Datepicker.Picker {...DateHourPicker.args}>
+                <Datepicker.Picker {...(DateHourPicker.args as any)}>
                   {({ monthName, hour, minute, year }) => (
                     <>
                       <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
@@ -179,10 +180,10 @@ export const decorators: DecoratorFunction<any>[] = [
                               ':' +
                               ('0' + minute).slice(-2)}
                           </Datepicker.Button>
-                          <Datepicker.Button {...DayMonth.args}>
+                          <Datepicker.Button {...ToggleMonth.args}>
                             {monthName}
                           </Datepicker.Button>
-                          <Datepicker.Button {...DayYear.args}>
+                          <Datepicker.Button {...ToggleYear.args}>
                             {year}
                           </Datepicker.Button>
                         </div>

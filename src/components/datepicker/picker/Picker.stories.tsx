@@ -5,8 +5,8 @@ import { classNames } from '../../../utils/class-names';
 import { storyToJsx } from '../../../utils/story';
 import { Button } from '../button/Button';
 import {
-  DayMonth,
-  DayYear,
+  ToggleMonth,
+  ToggleYear,
   Next,
   Prev,
   Today,
@@ -50,8 +50,8 @@ export const DatePicker = {
       <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
         ${storyToJsx(Prev, {}, 'Button', 4)}
         <div className="flex">
-          ${storyToJsx(DayMonth, { children: '{monthName}' }, 'Button', 5)}
-          ${storyToJsx(DayYear, { children: '{year}' }, 'Button', 5)}
+          ${storyToJsx(ToggleMonth, { children: '{monthName}' }, 'Button', 5)}
+          ${storyToJsx(ToggleYear, { children: '{year}' }, 'Button', 5)}
         </div>
         ${storyToJsx(Next, {}, 'Button', 4)}
       </div>
@@ -81,8 +81,8 @@ export const DatePicker = {
         <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
           <Button {...Prev.args} />
           <div className="flex">
-            <Button {...DayMonth.args}>{monthName}</Button>
-            <Button {...DayYear.args}>{year}</Button>
+            <Button {...ToggleMonth.args}>{monthName}</Button>
+            <Button {...ToggleYear.args}>{year}</Button>
           </div>
           <Button {...Next.args} />
         </div>
@@ -127,14 +127,15 @@ export const DateHourPicker: Story = {
           ${storyToJsx(
             Toggle,
             {
+              action: '"toggleHourPicker"',
               children:
                 "{('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2)}",
             },
             'Button',
             5,
           )}
-          ${storyToJsx(DayMonth, { children: '{monthName}' }, 'Button', 5)}
-          ${storyToJsx(DayYear, { children: '{year}' }, 'Button', 5)}
+          ${storyToJsx(ToggleMonth, { children: '{monthName}' }, 'Button', 5)}
+          ${storyToJsx(ToggleYear, { children: '{year}' }, 'Button', 5)}
         </div>
         ${storyToJsx(Next, {}, 'Button', 4)}
       </div>
@@ -148,7 +149,7 @@ export const DateHourPicker: Story = {
         'Button',
         3,
       )}
-      ${storyToJsx(HourPicker, {}, 'Picker', 3)}
+      ${storyToJsx(HourPicker, { id: '"HourPicker"' }, 'Picker', 3)}
     </>
   )}`,
       middleware: false,
@@ -161,11 +162,11 @@ export const DateHourPicker: Story = {
         <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
           <Button {...Prev.args} />
           <div className="flex">
-            <Button {...Toggle.args}>
+            <Button {...Toggle.args} action="toggleHourPicker">
               {('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2)}
             </Button>
-            <Button {...DayMonth.args}>{monthName}</Button>
-            <Button {...DayYear.args}>{year}</Button>
+            <Button {...ToggleMonth.args}>{monthName}</Button>
+            <Button {...ToggleYear.args}>{year}</Button>
           </div>
           <Button {...Next.args} />
         </div>
@@ -174,7 +175,7 @@ export const DateHourPicker: Story = {
           {...Today.args}
           className="mt-4 w-full bg-blue-700 p-2 text-sm font-medium hover:bg-blue-600"
         />
-        <Picker {...HourPicker.args} alwaysOpen={false} />
+        <Picker {...HourPicker.args} id="HourPicker" alwaysOpen={false} />
       </>
     ),
   },
@@ -197,8 +198,8 @@ export const Calendar: Story = {
             'Button',
             5,
           )}
-          ${storyToJsx(DayMonth, { children: '{monthName}' }, 'Button', 5)}
-          ${storyToJsx(DayYear, { children: '{year}' }, 'Button', 5)}
+          ${storyToJsx(ToggleMonth, { children: '{monthName}' }, 'Button', 5)}
+          ${storyToJsx(ToggleYear, { children: '{year}' }, 'Button', 5)}
         </div>
         ${storyToJsx(Next, {}, 'Button', 4)}
       </div>

@@ -171,7 +171,10 @@ export const Picker = forwardRef(
 
     const handleClickOutside = () => {
       if (disableClickOutside !== true && open && !alwaysOpen)
-        dispatch({ type: `close${pickerId}`, payload: { nestedLevel } });
+        dispatch({
+          type: 'action',
+          payload: { action: `close${pickerId}` },
+        });
     };
 
     useOnClickOutside([refs.floating, elementAttachTo], handleClickOutside);
