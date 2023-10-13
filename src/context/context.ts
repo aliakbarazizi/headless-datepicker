@@ -378,16 +378,7 @@ function runAction(
 
     if (index === '') {
       index =
-        (['open', 'close', 'toggle'].includes(type)
-          ? Object.keys(state.pickers)
-              .reverse()
-              .find(
-                (key) =>
-                  state.pickers[key].nestedLevel ===
-                  (payload as any).nestedLevel + 1,
-              ) || ''
-          : (payload as any).pickerId) ||
-        Object.keys(state.pickers).reverse()[0];
+        (payload as any).pickerId || Object.keys(state.pickers).reverse()[0];
 
       if (index === undefined) {
         throw new Error('There is no Picker in the current Provider');
@@ -395,7 +386,7 @@ function runAction(
     }
   }
 
-  console.log(type);
+  console.log(type, index, _match, Object.keys(state.pickers));
 
   switch (type) {
     case 'open':
