@@ -8,6 +8,7 @@ import {
 import { Props } from '../../../type';
 import { forwardRef, render } from '../../../utils/render';
 import { PickerContext } from '../picker/Picker';
+import { ButtonProps } from '..';
 
 const DEFAULT_TAG = 'button';
 
@@ -19,12 +20,14 @@ export type ItemProps<
   ElemenElementTag,
   DatepickerSlot,
   typeof itemDataAttribute,
-  { item: DateItemType | HourItemType }
+  {
+    item: DateItemType | HourItemType;
+  } & Partial<Pick<ButtonProps, 'action'>>
 >;
 
 export const Item = forwardRef(
   <ElemenElementTag extends ElementType>(
-    { item, ...props }: ItemProps<ElemenElementTag>,
+    { item, action, ...props }: ItemProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
     const { id } = useContext(PickerContext);
@@ -39,7 +42,7 @@ export const Item = forwardRef(
           : () => {
               dispatch({
                 type: 'select',
-                payload: { item, pickerId: id },
+                payload: { item, pickerId: id, action },
               });
             },
     };
