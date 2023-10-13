@@ -175,7 +175,10 @@ export const decorators: DecoratorFunction<any>[] = [
                       <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
                         <Datepicker.Button {...Prev.args} />
                         <div className="flex">
-                          <Datepicker.Button {...Toggle.args}>
+                          <Datepicker.Button
+                            {...Toggle.args}
+                            action="openHourPicker"
+                          >
                             {('0' + hour).slice(-2) +
                               ':' +
                               ('0' + minute).slice(-2)}
@@ -196,6 +199,7 @@ export const decorators: DecoratorFunction<any>[] = [
                       />
                       <Datepicker.Picker
                         {...HourPicker.args}
+                        id="HourPicker"
                         alwaysOpen={false}
                       />
                     </>
