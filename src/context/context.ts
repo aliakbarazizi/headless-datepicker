@@ -378,16 +378,7 @@ function runAction(
   let index = _match[2];
 
   if (index === '') {
-    index =
-      (['open', 'close', 'toggle'].includes(type)
-        ? Object.keys(state.pickers)
-            .reverse()
-            .find(
-              (key) =>
-                state.pickers[key].nestedLevel ===
-                (payload as any).nestedLevel + 1,
-            ) || ''
-        : (payload as any).pickerId) || Object.keys(state.pickers).reverse()[0];
+    index = payload.pickerId || Object.keys(state.pickers).reverse()[0];
 
     if (index === undefined) {
       throw new Error('There is no Picker in the current Provider');
