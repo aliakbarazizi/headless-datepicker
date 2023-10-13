@@ -285,8 +285,6 @@ export const datePickerReducer = (
       return { ...state, pickers };
     }
     case 'select': {
-      console.log(payload.action);
-
       const newState = payload.action
         ? runAction(state, {
             action: payload.action,
@@ -368,22 +366,36 @@ function runAction(
   state: DatepickerState,
   payload: Extract<DatepickerContextActions, { type: 'action' }>['payload'],
 ): DatepickerState {
+  let type = payload.action;
+  let index = '';
+
   const _match = payload.action.match(
     /^(open|close|next|prev|showYear|showMonth|showDay|toggleYear|toggleMonth|toggleDay|toggle)(.*)$/,
   );
-  if (!_match) {
-    throw new Error('Invalid action ' + payload.action);
-  }
-  const type = _match[1] as Action;
-  let index = _match[2];
+  if (_match) {
+    type = _match[1] as Action;
+    index = _match[2];
 
-  if (index === '') {
-    index = payload.pickerId || Object.keys(state.pickers).reverse()[0];
+    if (index === '') {
+      index =
+        (['open', 'close', 'toggle'].includes(type)
+          ? Object.keys(state.pickers)
+              .reverse()
+              .find(
+                (key) =>
+                  state.pickers[key].nestedLevel ===
+                  (payload as any).nestedLevel + 1,
+              ) || ''
+          : (payload as any).pickerId) ||
+        Object.keys(state.pickers).reverse()[0];
 
-    if (index === undefined) {
-      throw new Error('There is no Picker in the current Provider');
+      if (index === undefined) {
+        throw new Error('There is no Picker in the current Provider');
+      }
     }
   }
+
+  console.log(type);
 
   switch (type) {
     case 'open':
