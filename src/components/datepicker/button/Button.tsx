@@ -1,6 +1,6 @@
 import { ElementType, Ref, useContext, useRef } from 'react';
 import {
-  Actions,
+  Action,
   DatepickerSlot,
   useDatepickerSlot,
 } from '../../../context/context';
@@ -25,8 +25,7 @@ export type ButtonProps<
      *
      * The only exception is `today` and `todayHour` since they set value for all pickers.
      *
-     * For `open`, `close` or `toggle` the default target Picker is the first Picker in siblings.
-     * For others the default target Picker is the parent Picker.
+     * The default target Picker is the parent Picker.
      * If no picker found, it will be the first Picker.
      *
      * Action can be one of these
@@ -37,12 +36,11 @@ export type ButtonProps<
      * - `toggle` or `'toggle' + pickerId` close the calendar
      * - `next` or `'next' + pickerId` go to next month or year (depend on calendar mode)
      * - `prev` or `'prev' + pickerId` go to prev month or year (depend on calendar mode)
-     * - `dayMonthYear` or `'dayMonthYear' + pickerId` toggle calendar mode between day and month and year
-     * - `dayMonth` or `'dayMonth' + pickerId` toggle calendar mode between day and month
-     * - `dayYear` or `'dayYear' + pickerId` toggle calendar mode between day and year
-     * - `monthYear` or `'monthYear' + pickerId` toggle calendar mode between month and year
+     * - `year` or `'year' + pickerId` set showing items to year
+     * - `month` or `'month' + pickerId` set showing items to month
+     * - `day` or `'day' + pickerId` set showing items to day
      */
-    action: Actions;
+    action: Action;
   }
 >;
 
@@ -51,7 +49,7 @@ export const Button = forwardRef(
     { action, ...props }: ButtonProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
   ) => {
-    const { id, nestedLevel } = useContext(PickerContext);
+    const { id } = useContext(PickerContext);
 
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     useSyncRef(buttonRef, ref);
@@ -61,8 +59,8 @@ export const Button = forwardRef(
     const ourProps = {
       onClick: () =>
         dispatch({
-          type: action,
-          payload: { ref: buttonRef, nestedLevel, pickerId: id },
+          type: 'action',
+          payload: { action, ref: buttonRef, pickerId: id },
         }),
     };
 

@@ -26,10 +26,9 @@ const meta = {
         'toggle',
         'next',
         'prev',
-        'dayMonthYear',
-        'dayMonth',
-        'dayYear',
-        'monthYear',
+        'year',
+        'month',
+        'day',
         'today',
         'todayHour',
       ],
@@ -91,21 +90,39 @@ export const Toggle = {
   ],
 } satisfies Story;
 
-export const DayMonth = {
+export const ShowYear = {
   args: {
-    action: 'dayMonth',
+    action: 'showYear',
     className:
       'leading-2 p-2 text-lg font-semibold hover:bg-gray-700 hover:text-white',
-    children: 'Toggle Day-Month',
+    children: 'Show year',
   },
 } satisfies Story;
 
-export const DayYear = {
+export const ToggleYear = {
   args: {
-    action: 'dayYear',
+    action: 'toggleYear',
     className:
       'leading-2 p-2 text-lg font-semibold hover:bg-gray-700 hover:text-white',
-    children: 'Toggle Day-Year',
+    children: 'Toggle year',
+  },
+} satisfies Story;
+
+export const ShowMonth = {
+  args: {
+    action: 'showMonth',
+    className:
+      'leading-2 p-2 text-lg font-semibold hover:bg-gray-700 hover:text-white',
+    children: 'Show month',
+  },
+} satisfies Story;
+
+export const ToggleMonth = {
+  args: {
+    action: 'toggleMonth',
+    className:
+      'leading-2 p-2 text-lg font-semibold hover:bg-gray-700 hover:text-white',
+    children: 'Toggle month',
   },
 } satisfies Story;
 
