@@ -386,8 +386,6 @@ function runAction(
     }
   }
 
-  console.log(type, index, _match, Object.keys(state.pickers));
-
   switch (type) {
     case 'open':
       return {
