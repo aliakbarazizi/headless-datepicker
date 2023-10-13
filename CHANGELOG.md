@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.0.0](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.5...v2.0.0) (2023-10-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* action will run on parent picker by default
+* picker will no longer set back to default mode
+* Picker will no longer close by default after you select a day item, you need to set `action="close"` in Item component
+
+### Features
+
+* action prop in Item component ([a1784d9](https://github.com/aliakbarazizi/headless-datepicker/commit/a1784d921504fcf24c2ed62860e65c07bb1f8775))
+* action will run on parent picker by default ([7ae162f](https://github.com/aliakbarazizi/headless-datepicker/commit/7ae162fec1ca1558cafc40c1820525ee624ef3c6))
+* add new actions show and toggle for year, month, day (for example showDay) ([6b5123e](https://github.com/aliakbarazizi/headless-datepicker/commit/6b5123ea77f5124c06cdb4308b99ae3742210e51))
+* change action for more control over pickers ([bce06e8](https://github.com/aliakbarazizi/headless-datepicker/commit/bce06e81e8967eef8dd88dd27b4477a004983e17))
+* picker will no longer set back to default mode ([e6b707b](https://github.com/aliakbarazizi/headless-datepicker/commit/e6b707b2bf32d3bfc7629ab00c1158ca4c1abf8a))
+
+
+### Bug Fixes
+
+* set hour to 0 when its not exists ([f7d6ea9](https://github.com/aliakbarazizi/headless-datepicker/commit/f7d6ea99a86b224a2ec5c68a359578e4cfba6fb9))
+
 ## [1.1.6](https://github.com/aliakbarazizi/headless-datepicker/compare/v1.1.5...v1.1.6) (2023-10-05)
 
 ### Bug Fixes
