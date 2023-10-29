@@ -170,7 +170,7 @@ export const Picker = forwardRef(
     useSyncRef(refs.floating, ref);
 
     const handleClickOutside = () => {
-      if (disableClickOutside !== true && open && !alwaysOpen)
+      if (disableClickOutside !== true && pickerState?.isOpen)
         dispatch({
           type: 'action',
           payload: { action: `close${pickerId}` },

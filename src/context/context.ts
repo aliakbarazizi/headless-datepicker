@@ -406,7 +406,6 @@ function runAction(
           ...state.pickers,
           [index]: {
             ...state.pickers[index],
-            attach: undefined,
             isOpen: false,
             type: state.pickers[index].defaultType,
           },
@@ -419,7 +418,7 @@ function runAction(
           ...state.pickers,
           [index]: {
             ...state.pickers[index],
-            attach: state.pickers[index]?.isOpen ? undefined : payload.ref,
+            attach: payload.ref,
             isOpen: !state.pickers[index].isOpen,
             type: state.pickers[index].defaultType,
           },
