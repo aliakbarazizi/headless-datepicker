@@ -82,7 +82,7 @@ export const DateItems = {
         className={classNames(
           'grid items-center justify-center rounded-full py-1.5 text-sm font-medium select-none',
           item.isHeader ? 'cursor-default' : 'hover:bg-gray-700',
-          item.disabled ? 'text-gray-500' : 'hover:text-white',
+          'isInCurrentMonth' in item && item.isInCurrentMonth ? 'text-gray-500' : 'hover:text-white',
           item.type === 'day' && 'h-8 w-8',
           item.isSelected && 'bg-gray-600',
           item.isToday && 'border border-gray-500',

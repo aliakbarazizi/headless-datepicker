@@ -32,6 +32,8 @@ export const DateItem = {
   args: {
     item: {
       type: 'day',
+      isInCurrentMonth: true,
+      isDisabled: false,
       disabled: false,
       isSelected: false,
       isHeader: false,

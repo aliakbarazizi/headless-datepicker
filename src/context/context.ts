@@ -22,10 +22,15 @@ export type DateItemType =
        */
       isToday: boolean;
 
+      isDisabled: boolean;
+
       isSelected: boolean;
 
       isHeader: true;
 
+      /**
+       * @deprecated
+       */
       disabled: boolean;
 
       text: string;
@@ -45,10 +50,17 @@ export type DateItemType =
        */
       isToday: boolean;
 
+      isInCurrentMonth: boolean;
+
       isSelected: boolean;
 
       isHeader: false;
 
+      isDisabled: boolean;
+
+      /**
+       * @deprecated
+       */
       disabled: boolean;
 
       text: string;
@@ -72,6 +84,11 @@ export type DateItemType =
 
       isHeader: boolean;
 
+      isDisabled: boolean;
+
+      /**
+       * @deprecated
+       */
       disabled: boolean;
 
       text: string;
@@ -95,6 +112,11 @@ export type DateItemType =
 
       isHeader: boolean;
 
+      isDisabled: boolean;
+
+      /**
+       * @deprecated
+       */
       disabled: boolean;
 
       text: string;
@@ -114,6 +136,11 @@ export type HourItemType =
 
       isHeader: false;
 
+      isDisabled: boolean;
+
+      /**
+       * @deprecated
+       */
       disabled: false;
 
       value: number;
@@ -131,6 +158,11 @@ export type HourItemType =
 
       isHeader: false;
 
+      isDisabled: boolean;
+
+      /**
+       * @deprecated
+       */
       disabled: false;
 
       value: number;
