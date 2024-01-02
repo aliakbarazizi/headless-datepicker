@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/aliakbarazizi/headless-datepicker/compare/v2.0.1...v2.0.2) (2023-10-29)
+
+
+### Bug Fixes
+
+* maintain internal state in alwaysOpen ([2e690ef](https://github.com/aliakbarazizi/headless-datepicker/commit/2e690ef71e858ed3e3ee369cf958028db75fcc72))
+
 ## [2.0.1](https://github.com/aliakbarazizi/headless-datepicker/compare/v2.0.0...v2.0.1) (2023-10-13)
 
 
