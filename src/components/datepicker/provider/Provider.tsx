@@ -102,7 +102,6 @@ export const Provider = forwardRef(
           payload: value || new Date(),
         });
       });
-      // disposables.nextFrame
     });
 
     const [state, dispatch] = useReducer(datePickerReducer, null, () => {
