@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.0.0](https://github.com/aliakbarazizi/headless-datepicker/compare/v2.0.2...v3.0.0) (2024-03-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* npm package change to headless-datetimepicker
+
+### Features
+
+* add new isDisabled and isInCurrentMonth for items and deprecated disabled ([4d75e17](https://github.com/aliakbarazizi/headless-datepicker/commit/4d75e172a6bceafaf56838f4ca89273871860478))
+* change package name ([ac9570c](https://github.com/aliakbarazizi/headless-datepicker/commit/ac9570c9d268fe167548e7e9c9d305a2e58bad8d))
+
+
+### Bug Fixes
+
+* export config from package ([cf85959](https://github.com/aliakbarazizi/headless-datepicker/commit/cf859597aa12252c67b81edf1cb5b8da385007ad))
+
 ## [2.0.2](https://github.com/aliakbarazizi/headless-datepicker/compare/v2.0.1...v2.0.2) (2023-10-29)
 
 
