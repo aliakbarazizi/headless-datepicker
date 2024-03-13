@@ -1,5 +1,5 @@
 {
-  "name": "@aliakbarazizi/headless-datepicker",
+  "name": "headless-datetimepicker",
   "description": "React headless datepicker",
   "repository": {
     "type": "git",

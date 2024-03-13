@@ -1,7 +1,7 @@
 # React Date Picker
 
-[![npm version](https://badge.fury.io/js/@aliakbarazizi%2Fheadless-datepicker.svg)](https://badge.fury.io/js/@aliakbarazizi%2Fheadless-datepicker)
-[![npm](https://img.shields.io/npm/dm/%40aliakbarazizi/headless-datepicker)](https://www.npmjs.com/package/@aliakbarazizi/headless-datepicker)
+[![npm version](https://badge.fury.io/js/headless-datetimepicker.svg)](https://badge.fury.io/js/headless-datetimepicker)
+[![npm](https://img.shields.io/npm/dm/headless-datetimepicker)](https://www.npmjs.com/package/headless-datetimepicker)
 
 <p align="center">
   <img src='https://github.com/aliakbarazizi/headless-datepicker/raw/main/media/screenshot.png'/>
@@ -40,13 +40,13 @@ and logic while allowing developers to design their own user interface.
 The package can be installed via [npm](https://github.com/npm/cli):
 
 ```
-npm install @aliakbarazizi/headless-datepicker --save
+npm install headless-datetimepicker --save
 ```
 
 Or via [yarn](https://github.com/yarnpkg/yarn):
 
 ```
-yarn add @aliakbarazizi/headless-datepicker
+yarn add headless-datetimepicker
 ```
 
 ## Usage
@@ -54,7 +54,7 @@ yarn add @aliakbarazizi/headless-datepicker
 Import Datepicker component
 
 ```js
-import { Datepicker } from '@aliakbarazizi/headless-datepicker';
+import { Datepicker } from 'headless-datetimepicker';
 ```
 
 ## Basic example
@@ -93,7 +93,7 @@ Manually create a configuration object for your desired calendar type or use the
 - For the Jalali calendar:
 
   ```js
-  import { config } from '@aliakbarazizi/headless-datepicker/jalali';
+  import { config } from 'headless-datetimepicker/jalali';
   ```
 
 - For custom calendar:
