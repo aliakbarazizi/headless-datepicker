@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/aliakbarazizi/headless-datepicker/compare/v3.0.0...v3.0.1) (2024-04-03)
+
+
+### Bug Fixes
+
+* package json type ([44a2f2a](https://github.com/aliakbarazizi/headless-datepicker/commit/44a2f2a6b2975cc15208f2a29357271bc81fd706))
+
 ## [3.0.0](https://github.com/aliakbarazizi/headless-datepicker/compare/v2.0.2...v3.0.0) (2024-03-13)
 
 
