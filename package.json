@@ -23,6 +23,16 @@
   "main": "./dist/headless-datepicker.js",
   "module": "./dist/headless-datepicker.mjs",
   "types": "./dist/headless-datepicker.d.ts",
+  "typesVersions": {
+    ">=4.2": {
+      "*": [
+        "dist/headless-datepicker.d.ts"
+      ],
+      "jalali": [
+        "dist/jalali.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/headless-datepicker.d.ts",
