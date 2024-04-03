@@ -26,15 +26,15 @@
   "exports": {
     ".": {
       "types": "./dist/headless-datepicker.d.ts",
-      "module": "./dist/headless-datepicker.mjs",
+      "require": "./dist/headless-datepicker.mjs",
       "import": "./dist/headless-datepicker.mjs",
-      "default": "./dist/headless-datepicker.js"
+      "default": "./dist/headless-datepicker.mjs"
     },
     "./jalali": {
       "types": "./dist/jalali.d.ts",
-      "module": "./dist/jalali.mjs",
+      "require": "./dist/jalali.mjs",
       "import": "./dist/jalali.mjs",
-      "default": "./dist/jalali.js"
+      "default": "./dist/jalali.mjs"
     }
   },
   "scripts": {
