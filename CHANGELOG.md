@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.3](https://github.com/aliakbarazizi/headless-datepicker/compare/v3.0.2...v3.0.3) (2024-08-04)
+
+
+### Bug Fixes
+
+* config object ([4ccf51a](https://github.com/aliakbarazizi/headless-datepicker/commit/4ccf51a7ea6c3d891d98d4d9be5aa37287ff7d11))
+* isInCurrentMonth wrong value ([9a06d58](https://github.com/aliakbarazizi/headless-datepicker/commit/9a06d58b94e5f2494a03e3e61bb5ce20e46a4f00))
+
 ## [3.0.2](https://github.com/aliakbarazizi/headless-datepicker/compare/v3.0.1...v3.0.2) (2024-04-03)
 
 
