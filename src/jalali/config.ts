@@ -147,7 +147,7 @@ export const config: DatepickerConfig = {
 
           isHeader: false,
           isDisabled: false,
-          isInCurrentMonth: date >= start || date <= end,
+          isInCurrentMonth: date >= start && date <= end,
           disabled: date < start || date > end,
 
           value: date,

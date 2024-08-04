@@ -131,7 +131,7 @@ export const config: DatepickerConfig = {
           isToday: todayDate === date.getTime(),
           isSelected: selectedDate === date.getTime(),
           isHeader: false,
-          isInCurrentMonth: date >= start || date <= end,
+          isInCurrentMonth: date >= start && date <= end,
           isDisabled: date < start || date > end,
           disabled: date < start || date > end,
 
