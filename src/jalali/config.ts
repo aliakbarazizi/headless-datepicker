@@ -29,7 +29,7 @@ export const config: DatepickerConfig = {
     'بهمن',
     'اسفند',
   ],
-  format: (date, _format) => {
+  format: function (date, _format) {
     if (!date) return '';
     const jalali = toJalaali(date);
 
@@ -48,7 +48,7 @@ export const config: DatepickerConfig = {
       _format,
     );
   },
-  parse: (date, format, referenceDate) => {
+  parse: function (date, format, referenceDate) {
     const _date = parse(date, format, referenceDate || new Date());
 
     const jalali = jalaaliToDateObject(
@@ -61,8 +61,8 @@ export const config: DatepickerConfig = {
 
     return jalali;
   },
-  toDateParts: (date) =>
-    new Intl.DateTimeFormat('fa-IR-u-nu-latn', {
+  toDateParts: function (date) {
+    return new Intl.DateTimeFormat('fa-IR-u-nu-latn', {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
@@ -72,9 +72,10 @@ export const config: DatepickerConfig = {
         if (part.type !== 'literal')
           acc[part.type as keyof DateParts] = +part.value;
         return acc;
-      }, {} as any),
+      }, {} as any);
+  },
 
-  years: ({ type, year }) => {
+  years: function ({ type, year }) {
     const todayYear = toJalaali(new Date()).jy;
 
     return [...Array(200).keys()].map((value) => ({
@@ -90,9 +91,9 @@ export const config: DatepickerConfig = {
       text: value + 1300 + '',
     }));
   },
-  months: ({ type, month }) => {
+  months: function ({ type, month }) {
     const todayMonth = toJalaali(new Date()).jm;
-    return [...config.monthNames.keys()].map((value) => ({
+    return [...this.monthNames.keys()].map((value) => ({
       type,
       key: type + value,
       isToday: todayMonth === value + 1,
@@ -102,10 +103,10 @@ export const config: DatepickerConfig = {
       disabled: false,
 
       value: value + 1,
-      text: config.monthNames[value],
+      text: this.monthNames[value],
     }));
   },
-  days: ({ type, month, startOfWeek, year, value }) => {
+  days: function ({ type, month, startOfWeek, year, value }) {
     const start = jalaaliToDateObject(year, month, 1);
     const end = jalaaliToDateObject(year, month + 1, 1);
     end.setDate(end.getDate() - 1);
@@ -118,7 +119,7 @@ export const config: DatepickerConfig = {
     const todayDate = startOfToday().getTime();
     const selectedDate = value ? startOfDay(value).getTime() : 0;
 
-    return config.dayNames
+    return this.dayNames
       .map<Extract<DateItemType, { type: 'day' }>>((_day, i) => {
         const index = mod(startOfWeek + i, 7);
         return {
@@ -131,7 +132,7 @@ export const config: DatepickerConfig = {
           disabled: false,
 
           value: i,
-          text: config.dayNames[index],
+          text: this.dayNames[index],
         };
       })
       .concat(
@@ -146,7 +147,7 @@ export const config: DatepickerConfig = {
 
           isHeader: false,
           isDisabled: false,
-          isInCurrentMonth: date < end && date >= start,
+          isInCurrentMonth: date >= start || date <= end,
           disabled: date < start || date > end,
 
           value: date,
@@ -154,8 +155,8 @@ export const config: DatepickerConfig = {
         })),
       );
   },
-  hours: ({ type, hour }) =>
-    [...Array(24).keys()].map((value) => ({
+  hours: function ({ type, hour }) {
+    return [...Array(24).keys()].map((value) => ({
       type,
       key: value,
       value: value,
@@ -165,9 +166,10 @@ export const config: DatepickerConfig = {
       isHeader: false,
       isDisabled: false,
       disabled: false,
-    })),
-  minutes: ({ type, minute }) =>
-    [...Array(60).keys()].map((value) => ({
+    }));
+  },
+  minutes: function ({ type, minute }) {
+    return [...Array(60).keys()].map((value) => ({
       type,
       key: value,
       value: value,
@@ -177,7 +179,8 @@ export const config: DatepickerConfig = {
       isHeader: false,
       isDisabled: false,
       disabled: false,
-    })),
+    }));
+  },
 };
 
 function mod(n: number, m: number) {

@@ -39,15 +39,17 @@ export const config: DatepickerConfig = {
     'November',
     'December',
   ],
-  format: (date, format) => (date ? dateFromat(date, format) : ''),
-  parse: (date, format, referenceDate) => {
+  format: function (date, format) {
+    return date ? dateFromat(date, format) : '';
+  },
+  parse: function (date, format, referenceDate) {
     const parseDate = parse(date, format, referenceDate || new Date());
 
     return parseDate;
   },
 
-  toDateParts: (date) =>
-    new Intl.DateTimeFormat('en-US', {
+  toDateParts: function (date) {
+    return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
@@ -57,9 +59,10 @@ export const config: DatepickerConfig = {
         if (part.type !== 'literal')
           acc[part.type as keyof DateParts] = +part.value;
         return acc;
-      }, {} as any),
+      }, {} as any);
+  },
 
-  years: ({ type, year }) => {
+  years: function ({ type, year }) {
     const todayYear = new Date().getFullYear();
 
     return [...Array(200).keys()].map((value) => ({
@@ -75,10 +78,10 @@ export const config: DatepickerConfig = {
       text: value + 1900 + '',
     }));
   },
-  months: ({ type, month }) => {
+  months: function ({ type, month }) {
     const todayMonth = new Date().getMonth();
 
-    return [...config.monthNames.keys()].map((value) => ({
+    return [...this.monthNames.keys()].map((value) => ({
       type,
       key: type + value,
       isToday: todayMonth === value,
@@ -88,10 +91,10 @@ export const config: DatepickerConfig = {
       disabled: false,
 
       value: value + 1,
-      text: config.monthNames[value],
+      text: this.monthNames[value],
     }));
   },
-  days: ({ type, month, startOfWeek, year, value }) => {
+  days: function ({ type, month, startOfWeek, year, value }) {
     const date = new Date(year, month - 1, 1);
 
     const start = startOfMonth(date);
@@ -102,7 +105,7 @@ export const config: DatepickerConfig = {
     const todayDate = startOfToday().getTime();
     const selectedDate = value ? startOfDay(value).getTime() : 0;
 
-    return config.dayNames
+    return this.dayNames
       .map<Extract<DateItemType, { type: 'day' }>>((_day, i) => {
         const index = mod(startOfWeek + i, 7);
         return {
@@ -115,7 +118,7 @@ export const config: DatepickerConfig = {
           disabled: false,
 
           value: i,
-          text: config.dayNames[index],
+          text: this.dayNames[index],
         };
       })
       .concat(
@@ -128,7 +131,7 @@ export const config: DatepickerConfig = {
           isToday: todayDate === date.getTime(),
           isSelected: selectedDate === date.getTime(),
           isHeader: false,
-          isInCurrentMonth: date < start || date > end,
+          isInCurrentMonth: date >= start || date <= end,
           isDisabled: date < start || date > end,
           disabled: date < start || date > end,
 
@@ -137,8 +140,8 @@ export const config: DatepickerConfig = {
         })),
       );
   },
-  hours: ({ type, hour }) =>
-    [...Array(24).keys()].map((value) => ({
+  hours: function ({ type, hour }) {
+    return [...Array(24).keys()].map((value) => ({
       type,
       key: value,
       value: value,
@@ -148,10 +151,11 @@ export const config: DatepickerConfig = {
       isHeader: false,
       isDisabled: false,
       disabled: false,
-    })),
+    }));
+  },
 
-  minutes: ({ type, minute }) =>
-    [...Array(60).keys()].map((value) => ({
+  minutes: function ({ type, minute }) {
+    return [...Array(60).keys()].map((value) => ({
       type,
       key: value,
       value: value,
@@ -161,5 +165,6 @@ export const config: DatepickerConfig = {
       isHeader: false,
       isDisabled: false,
       disabled: false,
-    })),
+    }));
+  },
 };
