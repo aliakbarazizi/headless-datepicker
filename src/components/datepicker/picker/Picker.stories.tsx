@@ -253,8 +253,8 @@ export const Calendar: Story = {
                   'flex items-center justify-center rounded-md py-1.5 text-sm font-medium select-none',
                   item.isHeader ? 'cursor-default' : 'hover:bg-gray-700',
                   'isInCurrentMonth' in item && item.isInCurrentMonth
-                    ? 'text-gray-500'
-                    : 'hover:text-white',
+                    ? 'hover:text-white'
+                    : 'text-gray-500',
                   item.isSelected && 'bg-gray-600',
                   item.isToday && 'border border-gray-500',
                 )}
