@@ -65,6 +65,8 @@ export const Items = forwardRef(
 
     const value = state.valueRef.current;
 
+    const filterDate = state.filterDate;
+
     const items = useMemo(
       () =>
         type === 'hour' || type === 'minute'
@@ -79,7 +81,11 @@ export const Items = forwardRef(
               month: state.month,
               value: value,
               startOfWeek: state.startOfWeek,
-            } as any),
+            } as any).map((item) =>
+              item.type === 'day' && !item.isHeader && !filterDate(item.value)
+                ? { ...item, isDisabled: true }
+                : item,
+            ),
       [
         type,
         value,
@@ -89,6 +95,7 @@ export const Items = forwardRef(
         state.hour,
         state.minute,
         state.startOfWeek,
+        filterDate,
       ],
     );
 

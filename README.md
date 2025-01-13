@@ -23,7 +23,7 @@ and logic while allowing developers to design their own user interface.
 - **Multi Picker Support:**
   The component allows for nesting multiple pickers within each other, enabling advanced and complex selection scenarios.
 
-- **Keyboard Navigation:**
+- **Keyboard Navigation: (TODO)**
   Users can easily navigate and interact with the datepicker using keyboard shortcuts, enhancing accessibility and improving the user experience.
 
 - **Written in TypeScript with Type Support:**

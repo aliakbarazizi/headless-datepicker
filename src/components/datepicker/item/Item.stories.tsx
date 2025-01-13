@@ -34,7 +34,6 @@ export const DateItem = {
       type: 'day',
       isInCurrentMonth: true,
       isDisabled: false,
-      disabled: false,
       isSelected: false,
       isHeader: false,
       isToday: false,

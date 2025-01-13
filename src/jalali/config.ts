@@ -85,7 +85,6 @@ export const config: DatepickerConfig = {
       isSelected: year === value + 1300,
       isHeader: false,
       isDisabled: false,
-      disabled: false,
 
       value: value + 1300,
       text: value + 1300 + '',
@@ -100,7 +99,6 @@ export const config: DatepickerConfig = {
       isSelected: month === value + 1,
       isHeader: false,
       isDisabled: false,
-      disabled: false,
 
       value: value + 1,
       text: this.monthNames[value],
@@ -129,7 +127,6 @@ export const config: DatepickerConfig = {
           isSelected: false,
           isHeader: true,
           isDisabled: false,
-          disabled: false,
 
           value: i,
           text: this.dayNames[index],
@@ -146,9 +143,8 @@ export const config: DatepickerConfig = {
           isSelected: selectedDate === date.getTime(),
 
           isHeader: false,
-          isDisabled: false,
+          isDisabled: date < start || date > end,
           isInCurrentMonth: date >= start && date <= end,
-          disabled: date < start || date > end,
 
           value: date,
           text: format.format(date),
@@ -165,7 +161,6 @@ export const config: DatepickerConfig = {
       isSelected: hour === value,
       isHeader: false,
       isDisabled: false,
-      disabled: false,
     }));
   },
   minutes: function ({ type, minute }) {
@@ -178,7 +173,6 @@ export const config: DatepickerConfig = {
       isSelected: minute === value,
       isHeader: false,
       isDisabled: false,
-      disabled: false,
     }));
   },
 };
