@@ -99,8 +99,6 @@ export const Items = forwardRef(
       ],
     );
 
-    console.log(items);
-
     useScrollIntoItemIfNeeded(
       disableAutoScroll !== true &&
         picker !== undefined &&
