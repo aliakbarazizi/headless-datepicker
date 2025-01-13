@@ -1,5 +1,26 @@
 # Changelog
 
+## [4.0.0](https://github.com/aliakbarazizi/headless-datepicker/compare/v3.0.4...v4.0.0) (2025-01-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* Use 'isDisabled' instead.
+
+### Features
+
+* **datepicker:** add filterDate prop to disable specific dates ([cfb22af](https://github.com/aliakbarazizi/headless-datepicker/commit/cfb22af5e6092db662aafbad92ffb9d56c828e5e))
+
+
+### Bug Fixes
+
+* adjust text color logic for current month items in datepicker stories ([23629de](https://github.com/aliakbarazizi/headless-datepicker/commit/23629debe71e11423988d6b086a935f6e04ba075))
+
+
+### Miscellaneous Chores
+
+* remove deprecated 'disabled' property from date item types ([3807371](https://github.com/aliakbarazizi/headless-datepicker/commit/38073712b369b790e615fa8e0cf04f3fd16ed30a))
+
 ## [3.0.4](https://github.com/aliakbarazizi/headless-datepicker/compare/v3.0.3...v3.0.4) (2024-08-04)
 
 
