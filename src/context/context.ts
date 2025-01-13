@@ -288,6 +288,8 @@ export type DatepickerState = Omit<DatepickerSlot, 'monthName' | 'value'> & {
   valueRef: RefObject<Date | null>;
 
   onChange: (value: Date | null) => void;
+
+  filterDate: (date: Date) => boolean;
 };
 
 export const datePickerReducer = (

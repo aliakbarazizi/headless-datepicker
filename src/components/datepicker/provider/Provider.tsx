@@ -69,6 +69,11 @@ export type ProviderProps<
      * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay#return_value
      */
     startOfWeek?: number;
+
+    /**
+     * Filter date, if it returns false the date will be disabled
+     */
+    filterDate?: (date: Date) => boolean;
   }
 >;
 
@@ -83,6 +88,7 @@ export const Provider = forwardRef(
       disabled = false,
       config = defaultConfig,
       startOfWeek = 0,
+      filterDate: _filterDate = () => true,
       ...props
     }: ProviderProps<ElemenElementTag>,
     ref: Ref<HTMLElement>,
@@ -94,6 +100,8 @@ export const Provider = forwardRef(
     const onChange = useEvent((value: Date | null) => {
       if (isEqual(valueRef.current, value)) return;
 
+      if (value && !_filterDate(value)) return;
+
       disposables.nextFrame(() => {
         valueRef.current = value;
         controlledOnChange?.(valueRef.current);
@@ -103,6 +111,8 @@ export const Provider = forwardRef(
         });
       });
     });
+
+    const filterDate = useEvent(_filterDate);
 
     const [state, dispatch] = useReducer(datePickerReducer, null, () => {
       const date = valueRef.current || new Date();
@@ -120,6 +130,7 @@ export const Provider = forwardRef(
         valueRef,
         startOfWeek,
         onChange,
+        filterDate,
         pickers: {},
       };
     });

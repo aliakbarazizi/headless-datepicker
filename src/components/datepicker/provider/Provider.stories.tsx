@@ -12,7 +12,12 @@ const ProviderWithHooks = (args: any) => {
   const ref = useRef(null);
 
   return (
-    <Provider {...args} value={value} onChange={setVaue}>
+    <Provider
+      as="div"
+      value={value}
+      onChange={setVaue}
+      filterDate={(date) => date.getDay() !== 0}
+    >
       <Input {...InputDateHour.args} ref={ref} />
       <Picker {...DateHourPicker.args} attachTo={ref} />
     </Provider>
