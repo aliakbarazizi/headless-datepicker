@@ -12,12 +12,7 @@ const ProviderWithHooks = (args: any) => {
   const ref = useRef(null);
 
   return (
-    <Provider
-      as="div"
-      value={value}
-      onChange={setVaue}
-      filterDate={(date) => date.getDay() !== 0}
-    >
+    <Provider as="div" value={value} onChange={setVaue} {...args}>
       <Input {...InputDateHour.args} ref={ref} />
       <Picker {...DateHourPicker.args} attachTo={ref} />
     </Provider>
@@ -42,6 +37,7 @@ const meta = {
     value: { control: false },
     defaultValue: { control: false },
     config: { control: false },
+    filterDate: { control: false },
   },
   render: (args) => <ProviderWithHooks {...args} />,
 } satisfies Meta<typeof Provider>;
@@ -59,4 +55,18 @@ export const DatePicker = {
     },
   },
   args: {},
+} satisfies Story;
+
+export const FilterDays = {
+  parameters: {
+    override: {
+      children: `${storyToJsx(InputDateHour, {}, 'Input', 1)}
+  ${storyToJsx(DateHourPicker, { alwaysOpen: false }, 'Picker', 1)}`,
+      value: '{value}',
+      onChange: '{setValue}',
+    },
+  },
+  args: {
+    filterDate: (date: Date) => date.getDay() % 2 === 0,
+  },
 } satisfies Story;
